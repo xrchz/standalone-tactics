@@ -60,6 +60,10 @@
 \maketitle
 
 \begin{abstract}
+Tactics, functions that compute low-level inferences to achieve a high-level reasoning goal, are usually developed within and tied to a particular proof assistant, which leads to code duplication across different systems and inhibits reuse.
+As formal methods are applied to larger problems, projects spanning multiple proof assistants benefit more from interoperability and access to the union of all implemented tactics.
+Using the OpenTheory proof exchange format, we show how to turn a tactic implemented for one system into one available to many via the web.
+This enables, for example, LCF-style proof reconstruction efforts for fast automatic provers to be shared by users of multiple proof assistants and removes the need for each user to install the automatic prover.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
