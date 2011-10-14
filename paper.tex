@@ -1,61 +1,17 @@
 \documentclass{llncs}
 
-\usepackage{amsmath}
-\usepackage{amssymb}
 \usepackage{url}
 \usepackage{xspace}
-\usepackage{color}
-\definecolor{linkcolor}{rgb}{0,0,0.5}
-\usepackage[
-  colorlinks=true,
-  linkcolor=linkcolor,
-  citecolor=linkcolor,
-  filecolor=linkcolor,
-  urlcolor=linkcolor]{hyperref}
 
-\makeatletter
-\providecommand*{\toclevel@title}{0}
-\providecommand*{\toclevel@author}{1}
-\makeatother
-
-\hypersetup{bookmarksdepth=subsection}
-
-\newcommand{\HOL}{HOL4\xspace}
-\newcommand{\Squolem}{Squolem\xspace}
-\newcommand{\QBV}{QBV\xspace}
-\newcommand{\Minisat}{MiniSat\xspace}
 \newcommand{\OpenTheory}{OpenTheory\xspace}
-
-\newcommand{\secref}[1]{Section~\ref{#1}}
-\newcommand{\figref}[1]{Figure~\ref{#1}}
-\newcommand{\thmref}[1]{Theorem~\ref{#1}}
-\newcommand{\eqnref}[1]{(\ref{#1})}
-
-\newcommand{\sem}[1]{[\![{#1}]\!]}
-
-\newcommand{\ie}{i.e., }
-\newcommand{\eg}{e.g., }
-\newcommand{\cf}{cf.\xspace}
-\newcommand{\wrt}{wrt.\xspace}
-
-\newcommand{\ite}[3]{\ensuremath{\mathsf{if}\ #1\ \mathsf{then}\ #2\ \mathsf{else}\ #3}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-\hypersetup{
-  pdfauthor = {Ramana Kumar and Joe Hurd},
-  pdftitle = {Standalone Tactics using OpenTheory},
-  pdfkeywords = {Interactive Theorem Proving, LCF-style proof checking, HOL, \OpenTheory},
-  pdfsubject = {}
-}
-
 \title{Standalone Tactics using OpenTheory}
 
-\author{Ramana Kumar\thanks{supported by the Gates Cambridge Trust}\and Joe Hurd}
+\author{Ramana Kumar\thanks{supported by the Gates Cambridge Trust}\inst{1}\and Joe Hurd\inst{2}}
 
-\institute{\email{rk436@cam.ac.uk} and \email{joe@galois.com}}
+\institute{\email{Ramana.Kumar@cl.cam.ac.uk}\and\email{joe@galois.com}}
 
 \maketitle
 
@@ -66,76 +22,42 @@ Using the OpenTheory proof exchange format, we show how to turn a tactic impleme
 This enables, for example, LCF-style proof reconstruction efforts for fast automatic provers to be shared by users of multiple proof assistants and removes the need for each user to install the automatic prover.
 \end{abstract}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Introduction}
-\label{sec:introduction}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tactics in Proof Assistants}
+
+Examples of proof assistants.
+Examples of tactics.
+Examples of duplication.
+
+\section{\OpenTheory for Tactic Communication}
+
+Introduction to article format.
+Representing terms and proofs in the format.
+Viewing tactics as derived inference rules.
+
+\section{Making Existing Tactics into Web Services}
+
+Implementation details to make standalone.
+Implementation details to put on the web.
+Examples of tactics for which it is done: HolQbf, HolSmt, HolSat, sledgehammer, TFL, function package, Metis, datatype packages, arithmetic decision procedure.
+
+\section{Performance}
+
+Speed comparisons against using built-in tactics.
+Amount of code and time required, compared to porting tactics at the implementation level.
 
 \section{Related Work}
-\label{sec:related-work}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Background and Theory}
-\label{sec:background}
-
-\subsection{Quantified Boolean Formulae}
-
-\subsection{Skolem Functions and Models}
-\label{sec:models}
-
-\subsection{Certificates of Validity}
-\label{sec:certificates}
-
-\subsection{Higher-Order Logic}
-\label{sec:hol}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Implementation}
-\label{sec:checking}
-
-\subsection{Overview}
-\label{sec:checking-overview}
-
-\subsection{Subsection}
-\label{sec:preproc}
-
-\subsection{Subsection}
-\label{sec:hypelim}
-
-\subsection{Example}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Experimental Results}
-\label{sec:experimental-results}
-
-\subsection{Run-Times}
-\label{sec:run-times}
-
-\subsection{Profiling and Future Improvements}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Evidential tool bus.
+System on TPTP.
+Natural extension of the integration of automatic tools into interactive systems.
 
 \section{Conclusions}
-\label{sec:conclusion}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\bigskip
-
-\noindent \textbf{Acknowledgments} The authors would like to thank ....
-
-\vspace{-\bigskipamount}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Additional (non-proof) work tactics might also do needs to be represented on another channel.
 
 \bibliographystyle{splncs}
 \bibliography{paper}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
