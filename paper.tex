@@ -4,6 +4,7 @@
 \usepackage{xspace}
 
 \newcommand{\OpenTheory}{OpenTheory\xspace}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
 
 \begin{document}
 
@@ -23,26 +24,47 @@ This enables, for example, LCF-style proof reconstruction efforts for fast autom
 \end{abstract}
 
 \section{Introduction}
+There are many systems for interactively developing machine-checked formal theories, including HOL4~\cite{slind08brief}, HOL Light~\cite{DBLP:conf/tphol/Harrison09a}, ProofPower~\cite{ProofPower}, Isabelle/HOL~\cite{wenzel08isabelle}, and Coq~\cite{bertot08short}.
+%All but the last are based on higher-order logic~\cite{church40formulation,gordon94hol} and follow the LCF tradition~\cite{gordon79lcf} wherein theorems are represented by an abstract datatype all of whose constructors, representing inference rules, are contained in a small, trusted kernel.
+%In LCF-style provers, powerful proof procedures are kept trustworthy by, ultimately, only calling kernel functions to create theorems.
+The logic implemented by these systems (except Coq) is essentially the same, but the collections of libraries and tactics built atop the logical kernels differ.
+Where similar functionality exists in two systems it is usually the result of duplicate effort.
+For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher order logic based system (HOL4 in one case and HOL Light in the other).
+
+We contend that tactics or libraries for proof assistants need only be written and maintained in one place rather than once per system. 
+An added advantage when the tactic is an integration of an external tool is that a user of the proof assistant need not also have installed the external tool, because a standalone tactic can be accessed from a web server where the tool is installed.
+The contributions of this paper are:
+\begin{itemize}
+\item
+A tested methodology (\secref{opentheory}) for making existing libraries standalone, using the \OpenTheory~\cite{hurd2009} article format;
+\item
+A variety of standalone tactics ready for use as web services (\secref{web}); and,
+\item
+Performance data (\secref{performance}) comparing standalone tactics against direct implementations.
+\end{itemize}
 
 \section{Tactics in Proof Assistants}
 
-Examples of proof assistants.
-Examples of tactics.
-Examples of duplication.
+Classification and examples of the kinds of libraries and tactics implemented ontop of the kernel in various systems.
+
+Certain kinds of functionality, or improvements in functionality (e.g. Isabelle function package over TFL) become restricted to a single proof assistant unnecessarily.
 
 \section{\OpenTheory for Tactic Communication}
+\label{sec:opentheory}
 
 Introduction to article format.
 Representing terms and proofs in the format.
 Viewing tactics as derived inference rules.
+Implementation details to make standalone.
 
 \section{Making Existing Tactics into Web Services}
+\label{sec:web}
 
-Implementation details to make standalone.
 Implementation details to put on the web.
 Examples of tactics for which it is done: HolQbf, HolSmt, HolSat, sledgehammer, TFL, function package, Metis, datatype packages, arithmetic decision procedure.
 
 \section{Performance}
+\label{sec:performance}
 
 Speed comparisons against using built-in tactics.
 Amount of code and time required, compared to porting tactics at the implementation level.
