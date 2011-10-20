@@ -30,6 +30,7 @@ There are many systems for interactively developing machine-checked formal theor
 The logic implemented by these systems (except Coq) is essentially the same, but the collections of libraries and tactics built atop the logical kernels differ.
 Where similar functionality exists in two systems it is usually the result of duplicate effort.
 For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher order logic based system (HOL4 in one case and HOL Light in the other).
+Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
 
 We contend that tactics or libraries for proof assistants need only be written and maintained in one place rather than once per system. 
 An added advantage when the tactic is an integration of an external tool is that a user of the proof assistant need not also have installed the external tool, because a standalone tactic can be accessed from a web server where the tool is installed.
@@ -78,6 +79,9 @@ Natural extension of the integration of automatic tools into interactive systems
 \section{Conclusions}
 
 Additional (non-proof) work tactics might also do needs to be represented on another channel.
+
+Highly customised tactics for a particular proof system might suffer performance hits if the factorisation through the OpenTheory kernel cannot be done efficiently.
+By the same token, the article format might admit optimisation by restructuring low-level proofs, and such optimisers could be widely applied.
 
 \bibliographystyle{splncs}
 \bibliography{paper}
