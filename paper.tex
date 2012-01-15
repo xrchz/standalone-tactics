@@ -44,27 +44,36 @@ A variety of standalone tactics ready for use as web services (\secref{web}); an
 Performance data (\secref{performance}) comparing standalone tactics against direct implementations.
 \end{itemize}
 
-\section{Tactics in Proof Assistants}
+OpenTheory is designed for storing and sharing higher-order logic theories.
+By using OpenTheory to communicate to tactics (sending goals and receiving proofs), we obtain
+\begin{enumerate}
+\item
+A standard format (article files) for goals and proofs, and
+\item
+An extensible way to fix the meaning of constants and type definitions.
+\end{enumerate}
+
+\section{Making Existing Tactics into Web Services}
+\label{sec:web}
+
+\subsection{Tactics in Proof Assistants}
 
 Classification and examples of the kinds of libraries and tactics implemented ontop of the kernel in various systems.
 
+Examples of tactics: HolQbf, HolSmt, HolSat, sledgehammer, TFL, function package, Metis, datatype packages, arithmetic decision procedure.
+
 Certain kinds of functionality, or improvements in functionality (e.g. Isabelle function package over TFL) become restricted to a single proof assistant unnecessarily.
 
-\section{\OpenTheory for Tactic Communication}
+\subsection{\OpenTheory for Tactic Communication}
 \label{sec:opentheory}
 
 Introduction to article format.
 Representing terms and proofs in the format.
 Viewing tactics as derived inference rules.
 Implementation details to make standalone.
-
-\section{Making Existing Tactics into Web Services}
-\label{sec:web}
-
 Implementation details to put on the web.
-Examples of tactics for which it is done: HolQbf, HolSmt, HolSat, sledgehammer, TFL, function package, Metis, datatype packages, arithmetic decision procedure.
 
-\section{Performance}
+\section{Preliminary Performance Results}
 \label{sec:performance}
 
 Speed comparisons against using built-in tactics.
@@ -74,6 +83,7 @@ Amount of code and time required, compared to porting tactics at the implementat
 
 Evidential tool bus.
 System on TPTP.
+Omega.
 Natural extension of the integration of automatic tools into interactive systems.
 
 \section{Conclusions}
