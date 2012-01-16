@@ -29,23 +29,21 @@ There are many systems for interactively developing machine-checked formal theor
 %In LCF-style provers, powerful proof procedures are kept trustworthy by, ultimately, only calling kernel functions to create theorems.
 The logic implemented by these systems (except Coq) is essentially the same, but the collections of libraries and tactics built atop the logical kernels differ.
 Where similar functionality exists in two systems it is usually the result of duplicate effort.
-For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher order logic based system (HOL4 in one case and HOL Light in the other).
+
+For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher-order logic based system (HOL4 in one case and HOL Light in the other).
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
+<Metis integrated many times separately; currenty HOL4 version is very old and upgrading would be painful>
+<Sledgehammer <ref> regarded as one of the most successful integrations <ref> is available for Isabelle only, but the ideas behind it don't intrinsically exclude HOL4, HOL Light, etc.>
+<TFL, function package,>
+Certain kinds of functionality, or improvements in functionality (e.g. Isabelle function package over TFL) become restricted to a single proof assistant unnecessarily.
+<datatype packages>
+<arithmetic decision procedures>
 
 We contend that tactics or libraries for proof assistants need only be written and maintained in one place rather than once per system. 
 An added advantage when the tactic is an integration of an external tool is that a user of the proof assistant need not also have installed the external tool, because a standalone tactic can be accessed from a web server where the tool is installed.
-The contributions of this paper are:
-\begin{itemize}
-\item
-A tested methodology (\secref{opentheory}) for making existing libraries standalone, using the \OpenTheory~\cite{hurd2009} article format;
-\item
-A variety of standalone tactics ready for use as web services (\secref{web}); and,
-\item
-Performance data (\secref{performance}) comparing standalone tactics against direct implementations.
-\end{itemize}
 
-OpenTheory is designed for storing and sharing higher-order logic theories.
-By using OpenTheory to communicate to tactics (sending goals and receiving proofs), we obtain
+\OpenTheory~\cite{hurd2009} is designed for storing and sharing higher-order logic theories.
+By using \OpenTheory to communicate to tactics (sending goals and receiving proofs), we obtain
 \begin{enumerate}
 \item
 A standard format (article files) for goals and proofs, and
@@ -53,30 +51,36 @@ A standard format (article files) for goals and proofs, and
 An extensible way to fix the meaning of constants and type definitions.
 \end{enumerate}
 
+The contributions of this rough diamond are:
+\begin{itemize}
+\item
+A method (\secref{implementation}) for making existing libraries standalone, using the \OpenTheory article format, including working examples online; and,
+\item
+Preliminary performance data (\secref{performance}) comparing standalone tactics against direct implementations.
+\end{itemize}
+
 \section{Making Existing Tactics into Web Services}
-\label{sec:web}
-
-\subsection{Tactics in Proof Assistants}
-
-Classification and examples of the kinds of libraries and tactics implemented ontop of the kernel in various systems.
-
-Examples of tactics: HolQbf, HolSmt, HolSat, sledgehammer, TFL, function package, Metis, datatype packages, arithmetic decision procedure.
-
-Certain kinds of functionality, or improvements in functionality (e.g. Isabelle function package over TFL) become restricted to a single proof assistant unnecessarily.
+\label{sec:implementation}
 
 \subsection{\OpenTheory for Tactic Communication}
-\label{sec:opentheory}
-
 Introduction to article format.
 Representing terms and proofs in the format.
 Viewing tactics as derived inference rules.
+
+\subsection{Isolating tactics from their home systems}
 Implementation details to make standalone.
+<requires opentheory reader and writer for the system. so far accomplished by instrumenting the kernel to log primitive inferences. this is work, but has the additional benefit of allowing import/export of theories in opentheory repositories>
+<either use Polyml.export or checkpointing to capture a function that reads a goal article, runs the tactic (recording the proof), and writes the proof article back>
+
 Implementation details to put on the web.
+<simple cgi - worth mentioning?>
 
 \section{Preliminary Performance Results}
 \label{sec:performance}
 
 Speed comparisons against using built-in tactics.
+<compare builtin holqbf, holqbf with builtin minisat, and holqbf with external minisat (i.e. chain of two webtactics) on a simple and difficult qbf problem>
+
 Amount of code and time required, compared to porting tactics at the implementation level.
 
 \section{Related Work}
