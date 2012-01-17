@@ -33,7 +33,7 @@ Where similar functionality exists in two systems it is usually the result of du
 For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher-order logic based system (HOL4 in one case and HOL Light in the other).
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
 <Metis integrated many times separately; currenty HOL4 version is very old and upgrading would be painful>
-<Sledgehammer <ref> regarded as one of the most successful integrations <ref> is available for Isabelle only, but the ideas behind it don't intrinsically exclude HOL4, HOL Light, etc.>
+<Sledgehammer~\cite{DBLP:journals/japll/MengP09,Paulson_threeyears} is available for Isabelle only, but the ideas behind it don't intrinsically exclude HOL4, HOL Light, etc.>
 <TFL, function package,>
 Certain kinds of functionality, or improvements in functionality (e.g. Isabelle function package over TFL) become restricted to a single proof assistant unnecessarily.
 <datatype packages>
@@ -85,8 +85,9 @@ Amount of code and time required, compared to porting tactics at the implementat
 
 \section{Related Work}
 
-Evidential tool bus.
-System on TPTP.
+System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}.
+<Comparison to THF?>
+Evidential tool bus~\cite{DBLP:conf/icfem/Rushby05,fk:etb}.
 Omega.
 Natural extension of the integration of automatic tools into interactive systems.
 
