@@ -43,12 +43,12 @@ An extensible way to fix the meaning of constants and type definitions.
 Examples of duplicate effort include the integration of external tools into HOL-based provers.
 For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher-order logic based system (HOL4 in one case and HOL Light in the other).
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
-Sledgehammer~\cite{DBLP:journals/japll/MengP09,Paulson_threeyears} is only available for Isabelle/HOL, but would be useful if available for other provers.
+Sledgehammer~\cite{DBLP:journals/japll/MengP09,Paulson_threeyears,DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but would be useful if available for other provers.
 
 Besides duplicate initial effort, costs of maintenance can be multiplied over different provers, and improvements in functionality can become restricted to single prover unnecessarily.
 For instance, Hurd's first-order prover, Metis~\cite{DBLP:conf/cade/Hurd02}, is integrated in at least three HOL-based provers, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
-Another example is a package for defining recursive functions, TFL <ref>, which was originally written within both Isabelle/HOL and HOL4 <and others?> but was recently superceded by Krauss's function package <ref> in Isabelle/HOL only.
-Krauss's improvements ought to be applicable to other HOL-based provers <really?>, but a direct re-implementation would require substantial effort.
+Another example is a package for defining recursive functions, TFL~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, but recently superceded in Isabelle/HOL only by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
+The improvements of Krauss's method over TFL ought to be applicable to other HOL-based provers, but a direct re-implementation would require substantial effort.
 
 We contend that tactics or libraries for proof assistants need only be written and maintained in one place rather than once per system. 
 An added advantage when the tactic is an integration of an external tool is that a user of the proof assistant need not also have installed the external tool, because a standalone tactic can be accessed from a web server where the tool is installed.
@@ -100,6 +100,8 @@ Highly customised tactics for a particular proof system might suffer performance
 By the same token, the article format might admit optimisation by restructuring low-level proofs, and such optimisers could be widely applied.
 
 Other examples of functionality that could usefully be made prover-independent include packages for defining recursive datatypes or for solving classes of arithmetic problems.
+
+<extensions to other logics?>
 
 \bibliographystyle{splncs}
 \bibliography{paper}
