@@ -32,15 +32,15 @@ Where similar functionality exists in two systems it is usually the result of du
 
 It makes sense to speak of similar functionality in different systems not just because they use roughly the same logic, but also because there is a shared base of concepts: booleans, inductive datatypes, recursive functions, natural numbers, lists, sets, etc.  
 The \OpenTheory standard library~\cite{DBLP:conf/nfm/Hurd11} formalises this shared base, using \OpenTheory~\cite{hurd2009}, a format designed for storing and sharing higher-order logic theories.
-We use \OpenTheory to communicate to tactics (sending goals and receiving proofs), and thereby obtain
+We use \OpenTheory to communicate with tactics (sending goals and receiving proofs), and thereby obtain
 \begin{enumerate}
 \item
-A standard format (article files) for goals and proofs, and
+A standard format (\OpenTheory article files) for goals and proofs, and
 \item
 An extensible way to fix the meaning of constants and type definitions.
 \end{enumerate}
 
-Examples of duplicate effort include the integration of external tools into HOL-based provers.
+Examples of duplicated effort on tactics include the integration of external tools into HOL-based provers.
 For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher-order logic based system (HOL4 in one case and HOL Light in the other).
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
 Sledgehammer~\cite{DBLP:journals/japll/MengP09,Paulson_threeyears,DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but would be useful if available for other provers.
