@@ -67,7 +67,7 @@ Preliminary performance data (\secref{performance}) comparing standalone tactics
 The central concept in \OpenTheory is that of a \emph{theory package}, $\Gamma\rhd\Delta$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
 The basic unit\footnote{composite theory packages are also possible} for constructing theory packages is an \emph{article file}, which consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
 
-<Intro to LCF kernel? Viewing tactics as derived inference rules?>
+<more concrete examples? definition of tactics? viewing tactic as derived inference rule? intro to LCF kernel?>
 
 An article file represents a theory $\Gamma\rhd\Delta$.
 As a special case, we can represent the proof of a single goal $g$ by taking $\Delta=\{\vdash g\}$.
@@ -81,11 +81,23 @@ Thus the same format, article files, can be used to encode terms and proofs for 
 (Additional inputs and outputs can always be communicated separately.)
 
 \subsection{Isolating tactics from their home systems}
-Implementation details to make standalone.
-<requires opentheory reader and writer for the system. so far accomplished by instrumenting the kernel to log primitive inferences. this is work, but has the additional benefit of allowing import/export of theories in opentheory repositories>
+There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
+We have experimented with the second approach, taking tactics from HOL4 and from HOL Light.
+<The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.>
+The key requirements of the proof assistant are:
+\begin{enumerate}
+\item
+An \OpenTheory article file reader and writer,
+\item
+A facility for recording proofs and converting them to use the \OpenTheory primitive inferences, and,
+\item
+A facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
+\end{enumerate}
+<first two items are the most work, but have the additional benefit of allowing import/export of theories in opentheory repositories>
+<in HOL4 and HOL Light, item 2 is accomplished by augmenting the internal theorem type with a type of proofs, to track primitive inferences used. this step is made easy because of the LCF architecture>
 <either use Polyml.export or checkpointing to capture a function that reads a goal article, runs the tactic (recording the proof), and writes the proof article back>
 
-Implementation details to put on the web.
+<Implementation details to put on the web.>
 <simple cgi - worth mentioning?>
 
 \section{Preliminary Performance Results}
