@@ -4,6 +4,7 @@
 
 \newcommand{\OpenTheory}{OpenTheory\xspace}
 \newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\ie}{i.e.\xspace}
 
 \begin{document}
 
@@ -16,17 +17,15 @@
 \maketitle
 
 \begin{abstract}
-Tactics, functions that compute low-level inferences to achieve a high-level reasoning goal, are usually developed within and tied to a particular proof assistant, which leads to code duplication across different systems and inhibits reuse.
-As formal methods are applied to larger problems, projects spanning multiple proof assistants benefit more from interoperability and access to the union of all implemented tactics.
+Tactics, \ie functions that compute low-level inferences to achieve a high-level reasoning goal, are usually developed within and tied to a particular proof assistant, which leads to code duplication across different systems and inhibits reuse.
+Projects spanning multiple proof assistants would benefit from interoperability and from access to the union of all implemented tactics.
 Using the OpenTheory proof exchange format, we show how to turn a tactic implemented for one system into one available to many via the web.
 This enables, for example, LCF-style proof reconstruction efforts for fast automatic provers to be shared by users of multiple proof assistants and removes the need for each user to install the automatic prover.
 \end{abstract}
 
 \section{Introduction}
-There are many systems for interactively developing machine-checked formal theories, including HOL4~\cite{slind08brief}, HOL Light~\cite{DBLP:conf/tphol/Harrison09a}, ProofPower~\cite{ProofPower}, Isabelle/HOL~\cite{wenzel08isabelle}, and Coq~\cite{bertot08short}.
-%All but the last are based on higher-order logic~\cite{church40formulation,gordon94hol} and follow the LCF tradition~\cite{gordon79lcf} wherein theorems are represented by an abstract datatype all of whose constructors, representing inference rules, are contained in a small, trusted kernel.
-%In LCF-style provers, powerful proof procedures are kept trustworthy by, ultimately, only calling kernel functions to create theorems.
-The logic implemented by these systems (except Coq) is essentially the same, but the collections of libraries and tactics built atop the logical kernels differ.
+There are many similar LFC-style systems for interactively developing machine-checked formal theories, including HOL4~\cite{slind08brief}, HOL Light~\cite{DBLP:conf/tphol/Harrison09a}, ProofPower~\cite{ProofPower}, and Isabelle/HOL~\cite{wenzel08isabelle}.
+The logic implemented by these systems is essentially the same, but the collections of libraries and tactics built atop the logical kernels differ.
 Where similar functionality exists in two systems it is usually the result of duplicate effort.
 
 It makes sense to speak of similar functionality in different systems not just because they use roughly the same logic, but also because there is a shared base of concepts: booleans, inductive datatypes, recursive functions, natural numbers, lists, sets, etc.  
@@ -34,9 +33,9 @@ The \OpenTheory standard library~\cite{DBLP:conf/nfm/Hurd11} formalises this sha
 We use \OpenTheory to communicate with tactics (sending goals and receiving proofs), and thereby obtain
 \begin{enumerate}
 \item
-A standard format (\OpenTheory article files) for goals and proofs, and
+a standard format (\OpenTheory article files) for goals and proofs, and
 \item
-An extensible way to fix the meaning of constants and type definitions.
+an extensible way to fix the meaning of constants and type definitions.
 \end{enumerate}
 
 Examples of duplicated effort on tactics include the integration of external tools into HOL-based provers.
@@ -55,9 +54,9 @@ An added advantage when the tactic is an integration of an external tool is that
 The contributions of this rough diamond are:
 \begin{itemize}
 \item
-A method (\secref{implementation}) for making existing libraries standalone, using the \OpenTheory article format, including working examples online; and,
+a method (\secref{implementation}) for making existing libraries standalone, using the \OpenTheory article format, including working examples online; and,
 \item
-Preliminary performance data (\secref{performance}) comparing standalone tactics against direct implementations.
+preliminary performance data (\secref{performance}) comparing standalone tactics against direct implementations.
 \end{itemize}
 
 \section{Making Existing Tactics into Web Services}
