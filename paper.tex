@@ -64,20 +64,20 @@ preliminary performance data (\secref{performance}) comparing standalone tactics
 
 \subsection{\OpenTheory for Tactic Communication}
 The central concept in \OpenTheory is that of a \emph{theory package}, $\Gamma\rhd\Delta$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
-The basic unit\footnote{composite theory packages are also possible} for constructing theory packages is an \emph{article file}, which consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
-
-<more concrete examples? definition of tactics? viewing tactic as derived inference rule? intro to LCF kernel?>
+The basic unit\footnote{Composite theory packages are also possible.} for constructing theory packages is an \emph{article file}, which consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
 
 An article file represents a theory $\Gamma\rhd\Delta$.
 As a special case, we can represent the proof of a single goal $g$ by taking $\Delta=\{\vdash g\}$.
 More generally, by taking $\Delta$ to be the theorems proved by a tactic and $\Gamma$ to be any theorems the tactic uses, we can view the result of applying a tactic as a theory.
-
-Furthermore, we can represent a higher-order logic term $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
-The article format ensures $t$ is only written once in representing this theory.
-This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.
-
+Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem. \footnote{For example, we could represent $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
+This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 (Additional inputs and outputs can always be communicated separately.)
+
+As an example, consider the trivial task of proving $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
+Such a task might be given to a standalone tactic for beta-reducing terms.\footnote{In reality, such low-level functionality may not outweigh the overhead of making a tactic standalone. See <Sec 4??> for more realistic examples of tactics albeit in less detail.}
+
+<more concrete examples? definition of tactics? viewing tactic as derived inference rule? intro to LCF kernel?>
 
 \subsection{Isolating tactics from their home systems}
 There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
