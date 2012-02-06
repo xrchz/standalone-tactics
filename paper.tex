@@ -63,6 +63,15 @@ preliminary performance data (\secref{performance}) comparing standalone tactics
 \label{sec:implementation}
 
 \subsection{\OpenTheory for Tactic Communication}
+As an example, consider the trivial task of proving $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
+The user of a proof assistant needs to prove this theorem, and decides to pass it off to a standalone tactic for beta-reducing terms.\footnote{In reality, such low-level functionality may not outweigh the overhead of making a tactic stand alone. See \secref{performance} for more realistic examples of tactics (in less detail).}
+The input for the tactic is the term $(\lambda{x}.\;x)\;\mathtt{T}$, and the output is a proof of the theorem $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
+Standalone tactics use \OpenTheory article files for communicating both terms and theorems.
+The proof assistant translates the term from its local internal format to \OpenTheory article format, and sends the resulting article over the web to the tactic.
+The tactic returns another article, encoding a proof, which the proof assistant replays to create the desired theorem.
+
+<Example illustrates requirements of the proof assistant: be able to read proofs from articles, be able to write terms as articles, and some form of communication with external program or website>
+
 The central concept in \OpenTheory is that of a \emph{theory package}, $\Gamma\rhd\Delta$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
 The basic unit\footnote{Composite theory packages are also possible.} for constructing theory packages is an \emph{article file}, which consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
 
@@ -72,12 +81,7 @@ More generally, by taking $\Delta$ to be the theorems proved by a tactic and $\G
 Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem. \footnote{For example, we could represent $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
 This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
-(Additional inputs and outputs can always be communicated separately.)
-
-As an example, consider the trivial task of proving $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
-Such a task might be given to a standalone tactic for beta-reducing terms.\footnote{In reality, such low-level functionality may not outweigh the overhead of making a tactic standalone. See <Sec 4??> for more realistic examples of tactics albeit in less detail.}
-
-<more concrete examples? definition of tactics? viewing tactic as derived inference rule? intro to LCF kernel?>
+Additional data can be communicated separately; for example, the beta-reducing tactic might take a parameter specifying the maximum number of reductions to perform.
 
 \subsection{Isolating tactics from their home systems}
 There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
