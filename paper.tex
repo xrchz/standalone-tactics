@@ -70,10 +70,22 @@ Standalone tactics use \OpenTheory article files for communicating both terms an
 The proof assistant translates the term from its local internal format to \OpenTheory article format, and sends the resulting article over the web to the tactic.
 The tactic returns another article, encoding a proof, which the proof assistant replays to create the desired theorem.
 
-<Example illustrates requirements of the proof assistant: be able to read proofs from articles, be able to write terms as articles, and some form of communication with external program or website>
+The example illustrates the key requirements of the proof assistant: the ability to
+\begin{enumerate}
+\item \label{req:artr} replay proofs by reading \OpenTheory articles,
+\item \label{req:artw} write terms as \OpenTheory articles, and,
+\item \label{req:comm} communicate, for example over the web, with external programs.
+\end{enumerate}
 
+Items~\ref{req:artr} and \ref{req:artw} require implementation work for interpreting and constructing articles.
 The central concept in \OpenTheory is that of a \emph{theory package}, $\Gamma\rhd\Delta$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
-The basic unit\footnote{Composite theory packages are also possible.} for constructing theory packages is an \emph{article file}, which consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
+An \emph{article file} is the basic unit\footnote{Composite theory packages are also possible.} for constructing theory packages.
+It consists of instructions for a virtual machine whose operations include primitive inference rules of higher-order logic and basic term-manipulation.
+
+The instructions allowed in an article file represent the \OpenTheory \emph{logical kernel}.
+To read an article, a proof assistant performs the inferences and other instructions listed in the file.
+The \OpenTheory kernel is very close to HOL Light's kernel.
+It should be easy to read articles in any proof assistant that manipulates higher-order logic.
 
 An article file represents a theory $\Gamma\rhd\Delta$.
 As a special case, we can represent the proof of a single goal $g$ by taking $\Delta=\{\vdash g\}$.
@@ -82,6 +94,8 @@ Furthermore, we can represent a higher-order logic term in a theory by including
 This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 Additional data can be communicated separately; for example, the beta-reducing tactic might take a parameter specifying the maximum number of reductions to perform.
+
+<why is it good for communicating terms and theorems? fixes ontology...>
 
 \subsection{Isolating tactics from their home systems}
 There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
