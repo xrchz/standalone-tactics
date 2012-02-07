@@ -88,34 +88,33 @@ The \OpenTheory kernel is very close to HOL Light's kernel.
 It should be easy to read articles in any proof assistant that manipulates higher-order logic.
 
 An article file represents a theory $\Gamma\rhd\Delta$.
-As a special case, we can represent the proof of a single goal $g$ by taking $\Delta=\{\vdash g\}$.
-More generally, by taking $\Delta$ to be the theorems proved by a tactic and $\Gamma$ to be any theorems the tactic uses, we can view the result of applying a tactic as a theory.
+By taking $\Delta$ to be the theorems proved by a tactic and $\Gamma$ to be any theorems the tactic uses, we can view the result of applying a tactic as a theory.
 Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem. \footnote{For example, we could represent $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
 This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 Additional data can be communicated separately; for example, the beta-reducing tactic might take a parameter specifying the maximum number of reductions to perform.
 
-<why is it good for communicating terms and theorems? fixes ontology...>
+The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems. <Example?>
+<Requirements~\ref{req:artr} and \ref{req:artw} above carry the additional benefit of giving a proof assistant access to traditional \OpenTheory packages (\ie not just the output of standalone tactics).>
 
 \subsection{Isolating tactics from their home systems}
 There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
 We have experimented with the second approach, taking tactics from HOL4 and from HOL Light.
-<The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.>
+The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.
 The key requirements of the proof assistant are:
 \begin{enumerate}
 \item
-An \OpenTheory article file reader and writer,
+\label{req:io} an \OpenTheory article file reader and writer,
 \item
-A facility for recording proofs and converting them to use the \OpenTheory primitive inferences, and,
+\label{req:log} a facility for recording proofs and converting them to the \OpenTheory logical kernel, and,
 \item
-A facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
+\label{req:ckpt} a facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
 \end{enumerate}
-<first two items are the most work, but have the additional benefit of allowing import/export of theories in opentheory repositories>
-<in HOL4 and HOL Light, item 2 is accomplished by augmenting the internal theorem type with a type of proofs, to track primitive inferences used. this step is made easy because of the LCF architecture>
+<first two items are the most work, but have the additional benefit of allowing import/export of theories in opentheory repositories, as mentioned above. so: to use standalone tactics you also get to use opentheory packages, but if you can make yourself into a standalone tactic you can also export opentheory packages.>
+<in HOL4 and HOL Light, item 2 is accomplished by augmenting the internal theorem type with a type of proofs, to track primitive inferences used. this step is made easy by LCF architecture: could be very difficult in systems that don't already generate proofs somehow, or with significantly different kernel (cf isabelle)>
 <either use Polyml.export or checkpointing to capture a function that reads a goal article, runs the tactic (recording the proof), and writes the proof article back>
 
-<Implementation details to put on the web.>
-<simple cgi - worth mentioning?>
+<Implementation details to put on the web: simple cgi>
 
 \section{Preliminary Performance Results}
 \label{sec:performance}
@@ -134,7 +133,6 @@ Omega.
 Natural extension of the integration of automatic tools into interactive systems.
 
 \section{Conclusions}
-Additional (non-proof) work tactics might also do needs to be represented on another channel.
 
 Highly customised tactics for a particular proof system might suffer performance hits if the factorisation through the OpenTheory kernel cannot be done efficiently.
 By the same token, the article format might admit optimisation by restructuring low-level proofs, and such optimisers could be widely applied.
