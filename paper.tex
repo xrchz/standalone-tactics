@@ -5,6 +5,7 @@
 \newcommand{\OpenTheory}{OpenTheory\xspace}
 \newcommand{\secref}[1]{Section~\ref{sec:#1}}
 \newcommand{\ie}{i.e.\xspace}
+\newcommand{\eg}{e.g.\xspace}
 
 \begin{document}
 
@@ -116,8 +117,17 @@ The key requirements of the proof assistant are:
 \item
 \label{req:ckpt} a facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
 \end{enumerate}
-<first two items are the most work, but have the additional benefit of allowing import/export of theories in opentheory repositories, as mentioned above. so: to use standalone tactics you also get to use opentheory packages, but if you can make yourself into a standalone tactic you can also export opentheory packages.>
-<in HOL4 and HOL Light, item 2 is accomplished by augmenting the internal theorem type with a type of proofs, to track primitive inferences used. this step is made easy by LCF architecture: could be very difficult in systems that don't already generate proofs somehow, or with significantly different kernel (cf isabelle)>
+
+Just as the requirements of a system to use standalone tactics also enable it to import \OpenTheory packages in general, the requirements to create standalone tactics (specifically \ref{req:io} and \ref{req:log}) also enable a system to create and export \OpenTheory packages.
+
+Requirement~\ref{req:log} above poses the highest barrier: a standalone tactic must record proofs at a level of detail sufficient to create proofs of the same theorems using the \OpenTheory kernel.
+It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules.
+In HOL4 and HOL Light, we met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
+Then we express each primitive inference as a derived rule above the \OpenTheory kernel.
+In many cases, there is a direct counterpart (\eg reflexivity of equality is primitive in all three kernels).
+But, for example, HOL4's primitive rule for definition by specification must be emulated by a definition using Hilbert choice in \OpenTheory.
+<could be difficult in system with significantly different kernel, eg isabelle>
+
 <either use Polyml.export or checkpointing to capture a function that reads a goal article, runs the tactic (recording the proof), and writes the proof article back>
 
 <Implementation details to put on the web: simple cgi>
