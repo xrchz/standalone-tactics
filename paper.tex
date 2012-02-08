@@ -63,9 +63,9 @@ preliminary performance data (\secref{performance}) comparing standalone tactics
 \label{sec:implementation}
 
 \subsection{\OpenTheory for Tactic Communication}
-As an example, consider the trivial task of proving $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
-The user of a proof assistant needs to prove this theorem, and decides to pass it off to a standalone tactic for beta-reducing terms.\footnote{In reality, such low-level functionality may not outweigh the overhead of making a tactic stand alone. See \secref{performance} for more realistic examples of tactics (in less detail).}
-The input for the tactic is the term $(\lambda{x}.\;x)\;\mathtt{T}$, and the output is a proof of the theorem $\vdash(\lambda{x}.\;x)\;\mathtt{T}=\mathtt{T}$.
+As an example, consider proving $\vdash20+(12\times x)<(x\times 8)-13$.
+The user of a proof assistant needs to prove this theorem, and decides to pass it off to a standalone tactic for linear arithmetic.
+The input for the tactic is the term $20+(12\times x)<(x\times 8)-13$, and the output is a proof of the theorem.
 Standalone tactics use \OpenTheory article files for communicating both terms and theorems.
 The proof assistant translates the term from its local internal format to \OpenTheory article format, and sends the resulting article over the web to the tactic.
 The tactic returns another article, encoding a proof, which the proof assistant replays to create the desired theorem.
@@ -85,17 +85,23 @@ It consists of instructions for a virtual machine whose operations include primi
 The instructions allowed in an article file represent the \OpenTheory \emph{logical kernel}.
 To read an article, a proof assistant performs the inferences and other instructions listed in the file.
 The \OpenTheory kernel is very close to HOL Light's kernel.
-It should be easy to read articles in any proof assistant that manipulates higher-order logic.
+It should be easy to read articles in any system that can prove theorems of higher-order logic.
 
 An article file represents a theory $\Gamma\rhd\Delta$.
 By taking $\Delta$ to be the theorems proved by a tactic and $\Gamma$ to be any theorems the tactic uses, we can view the result of applying a tactic as a theory.
+In our example above, we have $\Delta=\{\vdash20+(12\times x)<(x\times 8)-13\}$ and might have $\Gamma\ni\forall{m\,n}.\;m\times n = n\times m$ amongst other assumptions.
 Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem. \footnote{For example, we could represent $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
 This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
-Additional data can be communicated separately; for example, the beta-reducing tactic might take a parameter specifying the maximum number of reductions to perform.
+Additional (non-logical) data can always be communicated separately.
 
-The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems. <Example?>
-<Requirements~\ref{req:artr} and \ref{req:artw} above carry the additional benefit of giving a proof assistant access to traditional \OpenTheory packages (\ie not just the output of standalone tactics).>
+The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
+For example, the term $20+(12\times x)<(x\times 8)-13$ might involve applications of constants \texttt{Number.Numeral.zero} and \texttt{Number.Numeral.bit1}, encoding the numbers in binary format.
+The names and namespaces of these constants are indicated in the \OpenTheory standard library, and proof assistants can maintain translations to and from their local names.
+A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc}) could use additional standalone tactics to translate between encodings.
+<...?>
+
+Requirements~\ref{req:artr} and \ref{req:artw} above carry the additional benefit of giving a proof assistant access to traditional \OpenTheory packages (\ie not just the output of standalone tactics).
 
 \subsection{Isolating tactics from their home systems}
 There are two approaches to obtaining a standalone tactic: either write one directly, or extract an existing tactic from a proof assistant. 
