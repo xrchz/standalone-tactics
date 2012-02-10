@@ -133,11 +133,17 @@ To satisfy Requirement~\ref{req:ckpt} in HOL4, we used the ``export'' facility o
 The situation for HOL Light is more complicated because OCaml does not provide such an ``export'' facility, and HOL Light does not use stored theories.
 We used a general purpose checkpointing facility to capture a HOL Light session at an appropriate point (ready to read an article and run a tactic).
 
+<mention the need in some cases to filter articles through the opentheory tool? maybe do this in the performance section. the reasons include: to remove prover-specific (Unwanted.id) tags, and to canonicalise HOL Light's constant names (using the interpret: as: package lines). Overall, these details are probably unimportant... but affect the performance>
+
 \section{Preliminary Performance Results}
 \label{sec:performance}
 
+<The tactics currently available, what they do, and where to find them.>
+
 Speed comparisons against using built-in tactics.
 <compare builtin holqbf, holqbf with builtin minisat, and holqbf with external minisat (i.e. chain of two webtactics) on a simple and difficult qbf problem>
+
+<How does (or would we expect) performance to scale with size of terms and proofs involved? Encoding/decoding terms/proofs presumably scales linearly.>
 
 Amount of code and time required, compared to porting tactics at the implementation level.
 
@@ -152,13 +158,15 @@ Natural extension of the integration of automatic tools into interactive systems
 
 \section{Conclusions}
 
-Using \OpenTheory for communication, we can 
+We have shown how, using \OpenTheory for communication, we can make tactics for higher-order logic reasoning tasks available to multiple proof assistants and independently maintainable.
 
-Highly customised tactics for a particular proof system might suffer performance hits if the factorisation through the OpenTheory kernel cannot be done efficiently.
+<Proof assistants enable the development of formal theories both by providing an environment for managing formalisations, that is, keeping track of the details and maintaning consistency, and also by providing customised tools for specific reasoning tasks.>
+
+<Tactics tailored to a particular proof system would suffer performance hits if the factorisation through the OpenTheory kernel cannot be done efficiently.>
 <The article format might admit optimisation by restructuring low-level proofs, and such optimisers could be widely applied.>
 <Tactics where proof search dominates proof replay offer the best prospects, since the search can be done elsewhere (in parallel), the overhead is mainly in transporting and replaying proofs, and queries might be cached>
 
-Other examples of functionality that could usefully be made prover-independent include packages for defining recursive datatypes or for solving classes of arithmetic problems.
+<Other examples of functionality that could usefully be made prover-independent include packages for defining recursive datatypes, quotient types, nominal types, or for solving classes of arithmetic problems (decision procedures). - worth mentioning? Better to only list future work one actually intends to do. (E.g. isabelle and sledgehammer)>
 
 <extensions to other logics?>
 
