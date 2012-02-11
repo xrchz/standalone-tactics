@@ -97,10 +97,9 @@ Thus the same format, article files, can be used to encode terms and proofs for 
 Additional (non-logical) data can always be communicated separately.
 
 The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
-For example, the term $20+(12\times x)<(x\times 8)-13$ might involve applications of constants \texttt{Number.Numeral.zero} and \texttt{Number.Numeral.bit1}, encoding the numbers in binary format.
+For example, the term $20+(12\times x)<(x\times 8)-13$ might involve applications of constants \texttt{Number.Natural.bit0} and \texttt{Number.Natural.bit1}, encoding the numbers in binary format.
 The names and namespaces of these constants are indicated in the \OpenTheory standard library, and proof assistants can maintain translations to and from their local names.
-A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc}) could use additional standalone tactics to translate between encodings.
-<...?>
+A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc} and \texttt{Number.Natural.zero}) could use additional standalone tactics to translate between encodings.
 
 Requirements~\ref{req:artr} and \ref{req:artw} above carry the additional benefit of giving a proof assistant access to traditional \OpenTheory packages (\ie not just the output of standalone tactics).
 
@@ -121,12 +120,13 @@ The key requirements of the proof assistant are:
 Just as the requirements of a system to use standalone tactics also enable it to import \OpenTheory packages in general, the requirements to create standalone tactics (specifically \ref{req:io} and \ref{req:log}) also enable a system to create and export \OpenTheory packages.
 
 Requirement~\ref{req:log} above poses the highest barrier: a standalone tactic must record proofs at a level of detail sufficient to create proofs of the same theorems using the \OpenTheory kernel.
-It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules.
-In HOL4 and HOL Light, we met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
-Then we express each primitive inference as a derived rule above the \OpenTheory kernel.
+It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules, as is the case for HOL4 and HOL Light.
+
+We met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
+Then we expressed each primitive inference as a derived rule above the \OpenTheory kernel.
 In many cases, there is a direct counterpart (\eg reflexivity of equality is primitive in all three kernels).
-But, for example, HOL4's primitive rule for definition by specification must be emulated by a definition using Hilbert choice in \OpenTheory.
-Although Isabelle/HOL uses the LCF architecture, its logical kernel is quite different from \OpenTheory; we therefore expect translating Isabelle/HOL proofs to be more difficult than HOL4 proofs.
+But, for example, HOL4's primitive rule for definition by specification must be emulated in \OpenTheory, for example by using Hilbert choice.
+Although Isabelle/HOL uses the LCF architecture, its logical kernel is quite different from \OpenTheory; we therefore expect translating Isabelle/HOL proofs to be more difficult than HOL4 and HOL Light proofs.
 
 To satisfy Requirement~\ref{req:ckpt} in HOL4, we used the ``export'' facility of the PolyML compiler, which creates a standalone executable that runs an ML function.
 (For each tactic, we captured a function that reads an article representing the input term, runs the tactic (recording the proof), and writes an article containing the proof.)
