@@ -91,7 +91,8 @@ It should be easy to read articles in any system that can prove theorems of high
 An article file represents a theory $\Gamma\rhd\Delta$.
 By taking $\Delta$ to be the theorems proved by a tactic and $\Gamma$ to be any theorems the tactic uses, we can view the result of applying a tactic as a theory.
 In our example above, we have $\Delta=\{\vdash20+(12\times x)<(x\times 8)-13\}$ and might have $\Gamma\ni\forall{m\,n}.\;m\times n = n\times m$ amongst other assumptions.
-Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem. \footnote{For example, we could represent $t$ by the theory $\{\vdash\mathtt{K\;F\;}t\}\rhd\{\vdash\mathtt{K\;F\;}t\}$, where $\mathtt{K}:\alpha\to\beta\to\alpha$ is the combinator defined by $\mathtt{K}\;x\;y=x$, and $\mathtt{F}$ is falsity (any boolean would do).
+Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem.\footnote{For example, we could represent $t$ by the theory $\emptyset\rhd\{\vdash{t=t}\}$.
+(The article format allows for multiple occurrences of $t$ to be shared.)
 This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 Additional (non-logical) data can always be communicated separately.
