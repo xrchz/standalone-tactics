@@ -69,7 +69,7 @@ As an example, suppose the user of an interactive theorem prover is faced with t
 \[
 \forall n.\ 8\le n\Rightarrow\exists s,t.\ n = 3s + 5t
 \]
-decides to pass it off to a standalone tactic for linear arithmetic.\footnote{This is a representation of the problem asking for a proof that \pounds 3 and \pounds 5 coins can be used to make \pounds $n$ for any natural number $n$ that is at least 8.}
+decides to pass it off to a standalone tactic for linear arithmetic.
 
 The input for the standalone tactic is the goal, and the output is a proof of the theorem.  Standalone tactics use the \OpenTheory article format for communicating both goal terms and proofs of theorems.  The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the web to the standalone tactic. If successful, the standalone tactic sends back another article file encoding a proof of the goal, which the interactive theorem prover replays through its logical kernel to create the desired theorem.
 
@@ -107,7 +107,7 @@ where the assumptions consist of a collection of standard arithmetic facts.
 % Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 % Additional (non-logical) data can always be communicated separately.
 
-The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
+The main benefit of using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
 For example, the numerals $3$, $5$ and $8$ in the example goal term can be encoded in binary using the standard constants \texttt{Number.Natural.bit0} and \texttt{Number.Natural.bit1}.
 The full names and properties of these constants are indicated in the \OpenTheory standard library, and interactive theorem provers can maintain translations to and from their local names and theorems.
 A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc} and \texttt{Number.Natural.zero}) could use additional standalone tactics to translate between encodings.
@@ -121,11 +121,11 @@ We have experimented with the second approach, extracting tactics from HOL4 and 
 The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.
 For tactic extraction to succeed, the key requirements of the interactive theorem prover are:
 \begin{enumerate}
-\item\label{req:io} An \OpenTheory article file reader and writer.
+\item\label{req:io} Ability to read and write \OpenTheory article files.
 
-\item\label{req:log} A facility for recording proofs and converting them to the \OpenTheory logical kernel.
+\item\label{req:log} Ability to record proofs and present them over the \OpenTheory kernel.
 
-\item\label{req:ckpt} A facility for making a standalone executable encompassing the tactic functionality without the usual interface to the interactive theorem prover.
+\item\label{req:ckpt} Ability to make a standalone executable encompassing the tactic functionality without the usual interface to the interactive theorem prover.
 \end{enumerate}
 
 Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
