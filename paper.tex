@@ -203,19 +203,11 @@ The usual scenario is a decision problem in first-order logic, but TPTP includes
 The idea of separate reasoning tools communicating to enhance a proof development environment is also being pursued in the Evidential Tool Bus~\cite{DBLP:conf/icfem/Rushby05} and the MathServe System~\cite{DBLP:conf/cade/ZimmerA06}.
 This idea is a natural extension of the integration of automatic tools with interactive theorem provers.
 
-\section{Conclusions}
+\section{Conclusion}
 
-We have shown how, using \OpenTheory for communication, we can make tactics for higher-order logic reasoning tasks available to multiple proof assistants and independently maintainable.
-
-<Proof assistants enable the development of formal theories both by providing an environment for managing formalisations, that is, keeping track of the details and maintaning consistency, and also by providing customised tools for specific reasoning tasks.>
-
-<Tactics tailored to a particular proof system would suffer performance hits if the factorisation through the OpenTheory kernel cannot be done efficiently.>
-<The article format might admit optimisation by restructuring low-level proofs, and such optimisers could be widely applied.>
-<Tactics where proof search dominates proof replay offer the best prospects, since the search can be done elsewhere (in parallel), the overhead is mainly in transporting and replaying proofs, and queries might be cached>
-
-<Other examples of functionality that could usefully be made prover-independent include packages for defining recursive datatypes, quotient types, nominal types, or for solving classes of arithmetic problems (decision procedures). - worth mentioning? Better to only list future work one actually intends to do. (E.g. isabelle and sledgehammer)>
-
-<extensions to other logics?>
+We have shown how, using \OpenTheory for communication, we can write tools for higher order logic reasoning tasks as standalone tactics, making them available to multiple interactive theorem provers and independently maintainable.
+Existing proof tools can be extracted from their home systems for reuse.
+There is a substantial but hopefully tolerable overhead of communicating goals and proofs over the web.
 
 \bibliographystyle{splncs}
 \bibliography{paper}
