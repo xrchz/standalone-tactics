@@ -152,19 +152,19 @@ We used a general-purpose checkpointing facility to capture a HOL Light session 
 
 \begin{table}
 \begin{center}
-\begin{tabular}{||@{~}l@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||}
+\begin{tabular}{||@{~}l@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||r@{~}||}
 \hline
-\textbf{Problem} & & \multicolumn{2}{c}{\textbf{Goal}} & & \textbf{Web} & & \multicolumn{2}{c}{\textbf{Proof}} & & \textbf{Total} \\
+\textbf{Problem} & & \multicolumn{2}{c}{\textbf{Goal}} & & \textbf{Web} & & \multicolumn{2}{c}{\textbf{Proof}} & & \textbf{Total} & \textbf{Local} \\
 \cline{2-4} \cline{7-9}
-\textbf{Name} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} \\
- & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} \\
+\textbf{Name} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} & \textbf{Time} \\
+ & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} & \textbf{(s)} \\
 \hline
-QBF${}_1$ & & 927 & 0.001 & & 1.064 & & 10,991 & 0.022 & & 1.088 \\
-QBF${}_2$ & & 1,474 & 0.001 & & 1.892 & & 79,944 & 0.139 & & 2.034 \\
-QBF${}_3$ & & 1,546 & 0.001 & & 1.821 & & 91,639 & 0.172 & & 1.996 \\
-SKICo${}_1$ & & 927 & 0.001 & & 1.212 & & 20,047 & 0.041 & & 1.255 \\
-SKICo${}_2$ & & 1,474 & 0.002 & & 1.557 & & 52,249 & 0.113 & & 1.673 \\
-SKICo${}_3$ & & 1,546 & 0.002 & & 1.716 & & 60,642 & 0.125 & & 1.844 \\
+QBF${}_1$ & & 927 & 0.001 & & 1.064 & & 10,991 & 0.022 & & 1.088 & 0.002\\
+QBF${}_2$ & & 1,474 & 0.001 & & 1.892 & & 79,944 & 0.139 & & 2.034 & 0.024\\
+QBF${}_3$ & & 1,546 & 0.001 & & 1.821 & & 91,639 & 0.172 & & 1.996 & 0.024\\
+SKICo${}_1$ & & 927 & 0.001 & & 1.212 & & 20,047 & 0.041 & & 1.255 & 0.000\\
+SKICo${}_2$ & & 1,474 & 0.002 & & 1.557 & & 52,249 & 0.113 & & 1.673 & 0.001\\
+SKICo${}_3$ & & 1,546 & 0.002 & & 1.716 & & 60,642 & 0.125 & & 1.844 & 0.005\\
 \hline
 \end{tabular}
 \end{center}
@@ -172,9 +172,9 @@ SKICo${}_3$ & & 1,546 & 0.002 & & 1.716 & & 60,642 & 0.125 & & 1.844 \\
 \label{tab:performance}
 \end{table}
 
-\textbf{RAMANA: perhaps add a column for the time taken to execute the tactic locally and talk about it briefly in the execution time paragraph below.}
-
-Table~\ref{tab:performance} shows preliminary performance results executing the QBF and SKICo standalone tactics on the following three test goals over boolean variables:
+We collected preliminary performance data for two tactics extracted from HOL4, made standalone, and called in HOL Light.
+They are QBF~\cite{DBLP:conf/itp/KumarW11}, which proves quantified boolean formulas, and SKICo, which rewrites terms to combinatory form, for example proving $\vdash(\forall{x}.\ x\lor\lnot x)=(\forall)\ (\mathtt{S}\ (\lor)\ (\lnot))$.
+We used the following three test goals:
 \begin{enumerate}
 \item $\forall x.\ x \lor\lnot x$
 
@@ -183,10 +183,14 @@ Table~\ref{tab:performance} shows preliminary performance results executing the 
 \item $\exists x.\ \forall y.\ \exists z.\ (\lnot x \lor\lnot y) \land (\lnot z\lor\lnot y)$
 \end{enumerate}
 For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of the three phases of execution: encoding the goal as an article; communicating and executing the standalone tactic via the web; and replaying the proof article received.
+For comparison, the time to run the tactic locally within HOL4 is given in the rightmost column.
 
-Table~\ref{tab:performance} shows the size of the articles for the test goals and the resulting proofs is comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (curl on the client and CGI scripts on the server). For standalone tactics generating large proofs we may wish to compress them using the \texttt{gzip} tool before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
+Table~\ref{tab:performance} shows the size of the articles for the test goals and the resulting proofs is comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server). For standalone tactics generating large proofs we may wish to compress them using the \texttt{gzip} tool before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
 
-As for the execution time, Table~\ref{tab:performance} shows the bulk of the time is spent communicating and executing the standalone tactic via the web, so there is not much profit to be gained in optimizing the client. Using the \texttt{traceroute} tool we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay. The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
+As for the execution time, Table~\ref{tab:performance} shows the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
+Web time includes reading the goal article, running the proof tool, writing the proof article, and network communication.
+Using the \texttt{traceroute} tool we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
+The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
 
 % Speed comparisons against using built-in tactics.
 % <compare builtin holqbf, holqbf with builtin minisat, and holqbf with external minisat (i.e. chain of two webtactics) on a simple and difficult qbf problem>
