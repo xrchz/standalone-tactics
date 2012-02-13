@@ -43,7 +43,7 @@ The improvements of Krauss's method over TFL ought to be applicable to other HOL
 
 It makes sense to speak of similar proof tools in different interactive theorem provers not just because they implement essentially the same logic, but also because there is a shared base of concepts: booleans, inductive datatypes, recursive functions, natural numbers, lists, sets, etc.
 The \OpenTheory standard library~\cite{hurd2011} formalises this shared base as a collection of theory packages containing proofs written in the simple \emph{article} format designed for storing and sharing higher order logic theories~\cite{hurd2009}.
-We use \OpenTheory as a language for users of interactive theorem provers to communicate with proof tools on a remote server, and thereby obtain the following two benefits:
+We use \OpenTheory as a language for interactive theorem provers to communicate with proof tools on a remote server, and thereby obtain the following two benefits:
 \begin{enumerate}
 \item\textbf{Proof Articles:} A standard format to encode the goals that will be sent to the proof tools and the proofs that will be received.
 
@@ -134,7 +134,7 @@ For tactic extraction to succeed, the key requirements of the interactive theore
 Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
 (The last requirement enables running on a server.)
 
-Requirement~\ref{req:log} poses the highest barrier: a standalone tactic must record a proof at a level of detail sufficient to prove the same theorem using the \OpenTheory kernel.
+Requirement~\ref{req:log} poses the highest barrier: a standalone tactic must record each proof at a level of detail sufficient to prove the same theorem using the \OpenTheory kernel.
 It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules, as is the case for HOL4 and HOL Light.
 
 We met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
@@ -188,9 +188,10 @@ We used the following three test goals:
 For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of three phases of execution: encoding the goal as an article; communicating and executing the standalone tactic via the web; and replaying the proof article received.
 For comparison, the time to run the tactic locally within HOL4 is given in the rightmost column.
 
-The sizes of the articles for the test goals and the resulting proofs are comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server). For standalone tactics generating large proofs we may wish to compress them using \texttt{gzip} before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
+The sizes of the articles for the test goals and the resulting proofs are comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server).
+For problems involving larger articles (long proofs or big goals) we may wish to compress them using \texttt{gzip} before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
 
-As for the execution time, the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
+Turning now to execution time, the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
 ``Web Time'' includes reading the goal article, running the proof tool, writing the proof article, and network communication.
 Using \texttt{traceroute} we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
 The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
