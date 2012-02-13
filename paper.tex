@@ -125,12 +125,13 @@ For tactic extraction to succeed, the key requirements of the interactive theore
 
 \item\label{req:log} A facility for recording proofs and converting them to the \OpenTheory logical kernel.
 
-\item\label{req:ckpt} A facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
+\item\label{req:ckpt} A facility for making a standalone executable encompassing the tactic functionality without the usual interface to the interactive theorem prover.
 \end{enumerate}
 
-Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the requirements to create standalone tactics (specifically Requirements~\ref{req:io} and~\ref{req:log}) also enable a system to create and export \OpenTheory packages.
+Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
+(The last requirement enables running on a server.)
 
-Requirement~\ref{req:log} above poses the highest barrier: a standalone tactic must record proofs at a level of detail sufficient to create proofs of the same theorems using the \OpenTheory kernel.
+Requirement~\ref{req:log} poses the highest barrier: a standalone tactic must record a proof at a level of detail sufficient to prove the same theorem using the \OpenTheory kernel.
 It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules, as is the case for HOL4 and HOL Light.
 
 We met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
@@ -141,8 +142,8 @@ Although Isabelle/HOL uses the LCF architecture, its logical kernel is quite dif
 
 To satisfy Requirement~\ref{req:ckpt} in HOL4, we used the `export' facility of the PolyML compiler, which creates a standalone executable that runs an ML function.
 For each tactic, we captured a function that reads an article representing the input term, runs the tactic (recording the proof), and writes an article containing the proof.
-The situation for HOL Light is more complicated because OCaml does not provide such an `export' facility, and HOL Light does not use stored theories.
-We used a general-purpose checkpointing facility to capture a HOL Light process at the point where it is ready to read an article and run a tactic.
+The situation for HOL Light is more complicated because OCaml does not provide such an `export' facility, and a HOL Light session typically starts by proving the standard library.
+We used a general-purpose checkpointing facility to capture a HOL Light session at the point where it is ready to read an article and run a tactic.
 
 % <mention the need in some cases to filter articles through the opentheory tool? maybe do this in the performance section. the reasons include: to remove prover-specific (Unwanted.id) tags, and to canonicalise HOL Light's constant names (using the interpret: as: package lines). Overall, these details are probably unimportant... but affect the performance>
 
