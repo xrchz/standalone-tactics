@@ -20,9 +20,9 @@
 
 \begin{abstract}
 Proof tools in interactive theorem provers are usually developed within and tied to a specific system, which leads to a duplication of effort to make the functionality available in different systems.
-Many verification projects would benefit from access to the union of all proof tools implemented across interactive theorem provers.
-Using \OpenTheory as a language for communicating between systems, we show how to turn an existing proof tool implemented for one system into a standalone tactic available to many systems via the web.
-This enables, for example, LCF-style proof reconstruction efforts for integrated external proof tools to be shared by users of different interactive theorem provers and removes the need for each user to install the external proof tool.
+Many verification projects would benefit from access to proof tools developed in other systems.
+Using \OpenTheory as a language for communicating between systems, we show how to turn a proof tool implemented for one system into a standalone tactic available to many systems via the web.
+This enables, for example, LCF-style proof reconstruction efforts to be shared by users of different interactive theorem provers and removes the need for each user to install the external tool being integrated.
 \end{abstract}
 
 \section{Introduction}
@@ -38,7 +38,7 @@ Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabel
 
 Besides duplicate initial effort, costs of maintenance can be multiplied over different provers, and improvements in functionality can become restricted to a single prover unnecessarily.
 For instance, the Metis first-order prover~\cite{hurd2003d} is integrated in at least three HOL-based provers, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
-Another example is Slind's TFL package for defining recursive functions~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, and recently superceded in Isabelle/HOL by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
+Slind's TFL package for defining recursive functions~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, was superseded in Isabelle/HOL by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
 The improvements of Krauss's method over TFL ought to be applicable to other HOL-based provers, but a direct reimplementation would require substantial effort.
 
 It makes sense to speak of similar proof tools in different interactive theorem provers not just because they implement essentially the same logic, but also because there is a shared base of concepts: booleans, inductive datatypes, recursive functions, natural numbers, lists, sets, etc.
@@ -85,12 +85,12 @@ This example illustrates the key requirements for an interactive theorem prover 
 Requirements~\ref{req:artr} and \ref{req:artw} can be satisfied for an interactive theorem prover by implementing an \OpenTheory interface that can interpret and construct articles.
 The central concept in \OpenTheory is that of a \emph{theory package}, $\theory{\Gamma}{\Delta}$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
 An article is a concrete representation of a theory package, consisting of instructions for a virtual machine whose operations include construction of types and terms, and the primitive inference rules of higher order logic.
-To read an article, an interactive theorem prover performs the primitive inferences and other instructions listed in the file.
+To \emph{read} an article, an interactive theorem prover performs the primitive inferences and other instructions listed in the file.
 The \OpenTheory logical kernel is based on HOL Light's logical kernel, and the instructions are chosen to make it easy to read articles into any system that can prove theorems of higher order logic.
 
 An article file represents a theory $\theory{\Gamma}{\Delta}$.
 By taking $\Delta$ to be the set of theorems proved by a proof tool and $\Gamma$ to be the set of theorems used by the proof tool, we can view the result of executing a proof tool as a logical theory.
-In our example above of using a linear arithmetic standalone tactic implementing on the given goal, this theory might be
+In our example above of using a linear arithmetic standalone tactic on the given goal, this theory might be
 \[
 \theory{\left\{\begin{array}{l}
 \vdash\forall n.\ n + 0 = n \\
@@ -182,14 +182,14 @@ We used the following three test goals:
 
 \item $\exists x.\ \forall y.\ \exists z.\ (\lnot x \lor\lnot y) \land (\lnot z\lor\lnot y)$
 \end{enumerate}
-For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of the three phases of execution: encoding the goal as an article; communicating and executing the standalone tactic via the web; and replaying the proof article received.
+For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of three phases of execution: encoding the goal as an article; communicating and executing the standalone tactic via the web; and replaying the proof article received.
 For comparison, the time to run the tactic locally within HOL4 is given in the rightmost column.
 
-Table~\ref{tab:performance} shows the size of the articles for the test goals and the resulting proofs is comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server). For standalone tactics generating large proofs we may wish to compress them using the \texttt{gzip} tool before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
+The sizes of the articles for the test goals and the resulting proofs are comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server). For standalone tactics generating large proofs we may wish to compress them using \texttt{gzip} before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
 
-As for the execution time, Table~\ref{tab:performance} shows the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
-Web time includes reading the goal article, running the proof tool, writing the proof article, and network communication.
-Using the \texttt{traceroute} tool we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
+As for the execution time, the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
+``Web Time'' includes reading the goal article, running the proof tool, writing the proof article, and network communication.
+Using \texttt{traceroute} we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
 The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
 
 % Speed comparisons against using built-in tactics.
@@ -201,7 +201,7 @@ The overall time is in the 1--2s range, which is very slow for workaday tactics 
 
 \section{Related Work}
 
-An impressive example of providing reasoning infrastructure over the web is the System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}.
+An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}.
 Here, multiple automatic theorem provers can be called on a problem (\eg satisfiability of a formula, or whether a goal follows from assumptions) expressed in the standard TPTP format.
 The usual scenario is a decision problem in first-order logic, but TPTP includes support for higher-order terms (THF format) and for expressing proofs in a standard language (TSTP).
 
