@@ -126,6 +126,41 @@
   bibsource = {DBLP, http://dblp.uni-trier.de}
 }
 
+@inproceedings{hurd2003d,
+  author = {Joe Hurd},
+  title = {First-Order Proof Tactics in Higher-Order Logic Theorem Provers},
+  pages = {56--68},
+  crossref = {strata2003},
+  url = {http://www.gilith.com/research/papers},
+  abstract =
+{In this paper we evaluate the effectiveness of first-order proof
+procedures when used as tactics for proving subgoals in a higher-order
+logic interactive theorem prover. We first motivate why such
+first-order proof tactics are useful, and then describe the core
+integrating technology: an `LCF-style' logical kernel for clausal
+first-order logic. This allows the choice of different logical
+mappings between higher-order logic and first-order logic to be used
+depending on the subgoal, and also enables several different
+first-order proof procedures to cooperate on constructing the proof.
+This work was carried out using the HOL4 theorem prover; we comment on
+the ease of transferring the technology to other higher-order logic
+theorem provers.}
+}
+
+@techreport{strata2003,
+  key = {STRATA-2003},
+  title = {Design and Application of Strategies/Tactics in Higher Order Logics (STRATA 2003)},
+  booktitle = {Design and Application of Strategies/Tactics in Higher Order Logics (STRATA 2003)},
+  author = {Myla Archer and Ben Di Vito and C{\'{e}}sar Mu{\~{n}}oz},
+  editor = {Myla Archer and Ben Di Vito and C{\'{e}}sar Mu{\~{n}}oz},
+  month = sep,
+  year = 2003,
+  institution = {{NASA}},
+  series = {{NASA} Technical Reports},
+  number = {NASA/CP-2003-212448},
+  url = {http://techreports.larc.nasa.gov/ltrs/PDF/2003/cp/NASA-2003-cp212448.pdf}
+}
+
 @proceedings{DBLP:conf/cade/2002,
   editor    = {Andrei Voronkov},
   title     = {Automated Deduction - CADE-18, 18th International Conference
@@ -560,15 +595,45 @@
   bibsource = {DBLP, http://dblp.uni-trier.de}
 }
 
-@inproceedings{DBLP:conf/nfm/Hurd11,
-  author    = {Joe Hurd},
-  title     = {The OpenTheory Standard Theory Library},
-  booktitle = {NASA Formal Methods},
-  year      = {2011},
-  pages     = {177-191},
-  ee        = {http://dx.doi.org/10.1007/978-3-642-20398-5_14},
-  crossref  = {DBLP:conf/nfm/2011},
-  bibsource = {DBLP, http://dblp.uni-trier.de}
+@inproceedings{hurd2011,
+  author = {Joe Hurd},
+  title = {The {OpenTheory} Standard Theory Library},
+  pages = {177--191},
+  crossref = {nfm2011},
+  url = {http://gilith.com/research/papers},
+  abstract =
+{Interactive theorem proving is tackling ever larger formalization and
+verification projects, and there is a critical need for theory
+engineering techniques to support these efforts. One such technique is
+cross-prover package management, which has the potential to simplify
+the development of logical theories and effectively share theories
+between different theorem prover implementations. The OpenTheory
+project has developed standards for packaging theories of the higher
+order logic implemented by the HOL family of theorem provers. What is
+currently missing is a standard theory library that can serve as a
+published contract of interoperability and contain proofs of basic
+properties that would otherwise appear in many theory packages. The
+core contribution of this paper is the presentation of a standard
+theory library for higher order logic represented as an OpenTheory
+package. We identify the core theory set of the HOL family of theorem
+provers, and describe the process of instrumenting the HOL Light
+theorem prover to extract a standardized version of its core theory
+development. We profile the axioms and theorems of our standard theory
+library and investigate the performance cost of separating the
+standard theory library into coherent hierarchical theory packages.}
+}
+
+@proceedings{nfm2011,
+  key = {NFM-2011},
+  title = {Third International Symposium on {NASA} Formal Methods ({NFM 2011})},
+  booktitle = {Third International Symposium on {NASA} Formal Methods ({NFM 2011})},
+  editor = {Mihaela Bobaru and Klaus Havelund and Gerard J. Holzmann and Rajeev Joshi},
+  month = apr,
+  year = 2011,
+  publisher = {Springer},
+  series = {Lecture Notes in Computer Science},
+  volume = 6617,
+  location = {Pasadena, California, United States}
 }
 
 @proceedings{DBLP:conf/nfm/2011,
