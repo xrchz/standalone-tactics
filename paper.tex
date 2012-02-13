@@ -32,8 +32,8 @@ The logic implemented by these systems is essentially the same, but the collecti
 Where similar proof tools exist in multiple systems it is usually the result of duplicated effort.
 
 Examples of duplicated effort on tactics include the integration of external tools into HOL-based provers.
-For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into a higher-order logic based system (HOL4 in one case and HOL Light in the other).
-Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems (HOL4, HOL Light, and Isabelle/HOL); each integration requires a separate implementation.
+For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into HOL4 and HOL Light.
+Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems; each integration requires a separate implementation.
 Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but would be useful if available for other provers.
 
 Besides duplicate initial effort, costs of maintenance can be multiplied over different provers, and improvements in functionality can become restricted to a single prover unnecessarily.
@@ -71,7 +71,10 @@ An example: the user of an interactive theorem prover faced with the goal
 \]
 decides to pass it off to a standalone tactic for linear arithmetic.
 
-The input for the standalone tactic is the goal, and the output is a proof of the theorem.  Standalone tactics use the \OpenTheory article format for communicating both goal terms and proofs of theorems.  The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the web to the standalone tactic. If successful, the standalone tactic sends back another article file encoding a proof of the goal, which the interactive theorem prover replays through its logical kernel to create the desired theorem.
+The input for the standalone tactic is the goal, and the output is a proof of the theorem.
+Standalone tactics use the \OpenTheory article format for communicating terms and proofs.
+The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the web to the standalone tactic.
+If successful, the standalone tactic sends back another article file encoding a proof of the goal, which the interactive theorem prover replays through its logical kernel to create the desired theorem.
 
 This example illustrates the key requirements for an interactive theorem prover to use standalone tactics:
 \begin{enumerate}
