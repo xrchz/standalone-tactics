@@ -65,7 +65,7 @@ The contributions of this rough diamond are:
 
 \subsection{\OpenTheory for Tactic Communication}
 
-As an example, suppose the user of an interactive theorem prover faced with the goal
+As an example, suppose the user of an interactive theorem prover is faced with the goal
 \[
 \forall n.\ 8\le n\Rightarrow\exists s,t.\ n = 3s + 5t
 \]
@@ -83,7 +83,10 @@ This example illustrates the key requirements for an interactive theorem prover 
 \end{enumerate}
 
 Requirements~\ref{req:artr} and \ref{req:artw} can be satisfied for an interactive theorem prover by implementing an \OpenTheory interface that can interpret and construct articles.
-The central concept in \OpenTheory is that of a \emph{theory package}, $\theory{\Gamma}{\Delta}$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$. An article is a concrete representation of a theory package, consisting of instructions for a virtual machine whose operations include construction of types, terms, and the primitive inference rules of higher order logic. To read an article, an interactive theorem prover performs the primitive inferences and other instructions listed in the file. The \OpenTheory logical kernel is based on HOL Light's logical kernel, and the instructions are chosen to make it easy to read articles into any system that can prove theorems of higher order logic.
+The central concept in \OpenTheory is that of a \emph{theory package}, $\theory{\Gamma}{\Delta}$, which proves that the set of theorems $\Delta$ logically derive from the set of assumptions $\Gamma$.
+An article is a concrete representation of a theory package, consisting of instructions for a virtual machine whose operations include construction of types and terms, and the primitive inference rules of higher order logic.
+To read an article, an interactive theorem prover performs the primitive inferences and other instructions listed in the file.
+The \OpenTheory logical kernel is based on HOL Light's logical kernel, and the instructions are chosen to make it easy to read articles into any system that can prove theorems of higher order logic.
 
 An article file represents a theory $\theory{\Gamma}{\Delta}$.
 By taking $\Delta$ to be the set of theorems proved by a proof tool and $\Gamma$ to be the set of theorems used by the proof tool, we can view the result of executing a proof tool as a logical theory.
@@ -105,7 +108,7 @@ where the assumptions consist of a collection of standard arithmetic facts.
 % Additional (non-logical) data can always be communicated separately.
 
 The main advantage to using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
-For example, the numerals 3, 5 and 8 in the example goal term can be encoded in binary using the standard constants \texttt{Number.Natural.bit0} and \texttt{Number.Natural.bit1}.
+For example, the numerals $3$, $5$ and $8$ in the example goal term can be encoded in binary using the standard constants \texttt{Number.Natural.bit0} and \texttt{Number.Natural.bit1}.
 The full names and properties of these constants are indicated in the \OpenTheory standard library, and interactive theorem provers can maintain translations to and from their local names and theorems.
 A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc} and \texttt{Number.Natural.zero}) could use additional standalone tactics to translate between encodings.
 
@@ -122,7 +125,7 @@ For tactic extraction to succeed, the key requirements of the interactive theore
 
 \item\label{req:log} A facility for recording proofs and converting them to the \OpenTheory logical kernel.
 
-\item\label{req:ckpt} A facility for check-pointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
+\item\label{req:ckpt} A facility for checkpointing the proof assistant, or for extracting a standalone executable encompassing the tactic functionality.
 \end{enumerate}
 
 Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the requirements to create standalone tactics (specifically Requirements~\ref{req:io} and~\ref{req:log}) also enable a system to create and export \OpenTheory packages.
