@@ -172,7 +172,7 @@ SKICo-3 & & 1,546 & 0.002 & & 1.716 & & 60,642 & 0.125 & & 1.844 & 0.005\\
 \end{table}
 
 We collected preliminary performance data for two test standalone tactics extracted from HOL4, and called from HOL Light.
-They are QBF~\cite{DBLP:conf/itp/KumarW11}, which proves quantified boolean formulas, and SKICo, which rewrites terms to combinatory form, for example proving $\vdash(\forall{x}.\ x\,\lor\,\lnot x)=(\forall)\ (\mathtt{S}\ (\lor)\ (\lnot))$.
+They are QBF~\cite{DBLP:conf/itp/KumarW11}, which proves quantified boolean formulas, and SKICo, which rewrites terms to combinatory form like so: $\vdash(\forall{x}.\ x\lor\lnot x)=(\forall)\ (\mathtt{S}\ (\lor)\ (\lnot))$.
 We used the following three test goals:
 \begin{enumerate}
 \item $\forall x.\ x \lor\lnot x$
