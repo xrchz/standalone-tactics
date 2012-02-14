@@ -34,10 +34,10 @@ Where similar proof tools exist in multiple systems it is usually the result of 
 Examples of duplicated effort on tactics include the integration of external tools into HOL-based provers.
 For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite{DBLP:conf/itp/Kuncar11} give independent integrations of a quantified boolean formula solver into HOL4 and HOL Light.
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems; each integration requires a separate implementation.
-Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but would be useful if available for other provers.
+Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but its functionality would also be useful in other systems.
 
-Besides duplicate initial effort, costs of maintenance can be multiplied over different provers, and improvements in functionality can become restricted to a single prover unnecessarily.
-For instance, the Metis first-order prover~\cite{hurd2003d} is integrated in at least three HOL-based provers, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
+In addition to the development effort, the costs of maintenance can also be multiplied over different systems, and improvements in functionality can become restricted to a single system unnecessarily.
+For instance, the Metis first-order prover~\cite{hurd2003d} is integrated in multiple systems in the HOL family, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
 Slind's TFL package for defining recursive functions~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, was superseded in Isabelle/HOL by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
 The improvements of Krauss's method over TFL ought to be applicable to other HOL-based provers, but a direct reimplementation would require substantial effort.
 
@@ -45,7 +45,7 @@ It makes sense to speak of similar proof tools in different interactive theorem 
 The \OpenTheory standard library~\cite{hurd2011} formalises this shared base as a collection of theory packages containing proofs written in the simple \emph{article} format designed for storing and sharing higher order logic theories~\cite{hurd2009}.
 We use \OpenTheory as a language for interactive theorem provers to communicate with proof tools on a remote server, and thereby obtain the following two benefits:
 \begin{enumerate}
-\item\textbf{Proof Articles:} A standard format to encode the goals that will be sent to the proof tools and the proofs that will be received.
+\item\textbf{Proof Articles:} A standard format to encode the goals that will be sent to the remote proof tools and the proofs that will be received in response.
 
 \item\textbf{Standard Library:} An extensible way to fix the meaning of constants and type definitions between systems.
 \end{enumerate}
@@ -71,7 +71,7 @@ An example: the user of an interactive theorem prover faced with the goal
 \]
 decides to pass it off to a standalone tactic for linear arithmetic.
 
-The input for the standalone tactic is the goal, and the output is a proof of the theorem.
+The input for the standalone tactic is the goal term, and the output is a proof of the theorem.
 Standalone tactics use the \OpenTheory article format for communicating terms and proofs.
 The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the web to the standalone tactic.
 If successful, the standalone tactic sends back another article file encoding a proof of the goal, which the interactive theorem prover replays through its logical kernel to create the desired theorem.
@@ -97,10 +97,10 @@ In our example above of using a linear arithmetic standalone tactic on the given
 \[
 \theory{\left\{\begin{array}{l}
 \vdash\forall n.\ n + 0 = n \\
-\vdash\forall m,n.\ m + n = n + m \\
+\vdash\forall m,n.\ mn = nm \\
 \cdots
 \end{array}\right\}}
-{\bigl\{\vdash\forall n.\ 8\le n\Rightarrow\exists s,t.\ n = 3s + 5t\bigr\}}
+{\bigl\{\,\vdash\forall n.\ 8\le n\Rightarrow\exists s,t.\ n = 3s + 5t\,\bigr\}}
 \]
 where the assumptions consist of a collection of standard arithmetic facts.
 
@@ -110,12 +110,12 @@ where the assumptions consist of a collection of standard arithmetic facts.
 % Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
 % Additional (non-logical) data can always be communicated separately.
 
-The main benefit of using \OpenTheory for communication is that it provides a standard, independent framework for fixing the meanings of constants between different systems.
+The main benefit of using \OpenTheory for communication is that it provides a standard ontology for fixing the meanings of constants and type operators between different systems.
 For example, the numerals $3$, $5$ and $8$ in the example goal term can be encoded in binary using the standard constants \texttt{Number.Natural.bit0} and \texttt{Number.Natural.bit1}.
 The full names and properties of these constants are indicated in the \OpenTheory standard library, and interactive theorem provers can maintain translations to and from their local names and theorems.
 A system using a different encoding for numbers (say unary, with \texttt{Number.Natural.suc} and \texttt{Number.Natural.zero}) could use additional standalone tactics to translate between encodings.
 
-Implementing an \OpenTheory interface to satisfy Requirements~\ref{req:artr} and~\ref{req:artw} above carries the additional benefit of giving the interactive theorem prover access to all theories stored as \OpenTheory packages, not just those that are the output of standalone tactics.
+Implementing an \OpenTheory interface to satisfy Requirements~\ref{req:artr} and~\ref{req:artw} above carries the additional benefit of giving the interactive theorem prover access to all logical theories stored as \OpenTheory packages, not just those that are the output of standalone tactics.
 
 \subsection{Extracting Tactics from Interactive Theorem Provers}
 
@@ -126,24 +126,20 @@ For tactic extraction to succeed, the key requirements of the interactive theore
 \begin{enumerate}
 \item\label{req:io} Ability to read and write \OpenTheory article files.
 
-\item\label{req:log} Ability to record proofs and present them over the \OpenTheory kernel.
+\item\label{req:log} Ability to record proofs and reduce them to the \OpenTheory kernel.
 
-\item\label{req:ckpt} Ability to make a standalone executable encompassing the tactic functionality without the usual interface to the interactive theorem prover.
+\item\label{req:ckpt} Ability to make a standalone executable encompassing the tactic functionality separated from the usual interface to the interactive theorem prover.
 \end{enumerate}
 
 Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
 (The last requirement enables running on a server.)
 
 Requirement~\ref{req:log} poses the highest barrier: a standalone tactic must record each proof at a level of detail sufficient to prove the same theorem using the \OpenTheory kernel.
-It helps if the system containing the tactic uses the LCF architecture, that is, theorems can only be created by a small number of primitive inference rules, as is the case for HOL4 and HOL Light.
-
-We met Requirement~\ref{req:log} by augmenting the internal theorem type with a type of proofs, to track primitive inferences used.
-Then we expressed each primitive inference as a derived rule above the \OpenTheory kernel.
-In many cases, there is a direct counterpart (\eg reflexivity of equality is primitive in all three kernels).
-But, for example, HOL4's primitive rule for definition by specification must be emulated in \OpenTheory, for example by using Hilbert choice.
+The following method can be used if the system implementing the tactic has an LCF-style design, that is, theorems can only be created by a small number of primitive inference rules: (i) augment the internal theorem type with a type of proofs to track the system primitive inferences used; and (ii) express each system primitive inference as a derived rule of the \OpenTheory kernel. We applied this method to meet Requirement~\ref{req:log} for both HOL4 and HOL Light. For some primitive inferences (such as reflexivity of equality) there is a direct translation to the \OpenTheory logical kernel.
+But, for example, HOL4's primitive rule for definition by specification must be emulated in the \OpenTheory kernel, for example by using Hilbert choice.
 Although Isabelle/HOL uses the LCF architecture, its logical kernel is quite different from \OpenTheory; we therefore expect translating Isabelle/HOL proofs to be more difficult than HOL4 and HOL Light proofs.
 
-To satisfy Requirement~\ref{req:ckpt} in HOL4, we used the `export' facility of the PolyML compiler, which creates a standalone executable that runs an ML function.
+To satisfy Requirement~\ref{req:ckpt} in HOL4, we used the `export' facility of the Poly/ML compiler, which creates a standalone executable that runs an ML function.
 For each tactic, we captured a function that reads an article representing the input term, runs the tactic (recording the proof), and writes an article containing the proof.
 The situation for HOL Light is more complicated because OCaml does not provide such an `export' facility, and a HOL Light session typically starts by proving the standard library.
 We used a general-purpose checkpointing facility to capture a HOL Light session at the point where it is ready to read an article and run a tactic.
@@ -175,8 +171,8 @@ SKICo${}_3$ & & 1,546 & 0.002 & & 1.716 & & 60,642 & 0.125 & & 1.844 & 0.005\\
 \label{tab:performance}
 \end{table}
 
-We collected preliminary performance data for two tactics extracted from HOL4, made standalone, and called in HOL Light.
-They are QBF~\cite{DBLP:conf/itp/KumarW11}, which proves quantified boolean formulas, and SKICo, which rewrites terms to combinatory form, for example proving $\vdash(\forall{x}.\ x\lor\lnot x)=(\forall)\ (\mathtt{S}\ (\lor)\ (\lnot))$.
+We collected preliminary performance data for two test standalone tactics extracted from HOL4, and called from HOL Light.
+They are QBF~\cite{DBLP:conf/itp/KumarW11}, which proves quantified boolean formulas, and SKICo, which rewrites terms to combinatory form, for example proving $\vdash(\forall{x}.\ x\,\lor\,\lnot x)=(\forall)\ (\mathtt{S}\ (\lor)\ (\lnot))$.
 We used the following three test goals:
 \begin{enumerate}
 \item $\forall x.\ x \lor\lnot x$
@@ -185,14 +181,13 @@ We used the following three test goals:
 
 \item $\exists x.\ \forall y.\ \exists z.\ (\lnot x \lor\lnot y) \land (\lnot z\lor\lnot y)$
 \end{enumerate}
-For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of three phases of execution: encoding the goal as an article; communicating and executing the standalone tactic via the web; and replaying the proof article received.
+For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of the three phases of execution: encoding the goal as an article; communicating with and executing the standalone tactic via the web; and replaying the proof article received.
 For comparison, the time to run the tactic locally within HOL4 is given in the rightmost column.
 
 The sizes of the articles for the test goals and the resulting proofs are comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server).
-For problems involving larger articles (long proofs or big goals) we may wish to compress them using \texttt{gzip} before sending them to the client---previous experiments showed a 90\% compression ratio is typical on articles~\cite{hurd2009}.
+For problems involving larger articles (bigger goals or longer proofs) we may wish to compress them using \texttt{gzip} before sending them over the network---previous experiments showed a compression ratio of 90\% is typical for article files~\cite{hurd2009}.
 
-Turning now to execution time, the bulk of the time is spent executing the standalone tactic on the web and communicating, so there is not much to be gained from optimizing the client.
-``Web Time'' includes reading the goal article, running the proof tool, writing the proof article, and network communication.
+Turning now to execution time, we can see that it is significantly more expensive to call a standalone tactic over the web compared to executing it locally. However, most of the time is spent on `Web Time', which includes communicating with the remote standalone tactic and waiting for it to read the goal article, run the proof tool, and write the resulting proof article.
 Using \texttt{traceroute} we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
 The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
 
@@ -205,9 +200,8 @@ The overall time is in the 1--2s range, which is very slow for workaday tactics 
 
 \section{Related Work}
 
-An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}.
-Here, multiple automatic theorem provers can be called on a problem (\eg satisfiability of a formula, or whether a goal follows from assumptions) expressed in the standard TPTP format.
-The usual scenario is a decision problem in first-order logic, but TPTP includes support for higher-order terms (THF format) and for expressing proofs in a standard language (TSTP).
+An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}, which enables a user to remotely execute a collection of automatic theorem provers on a problem expressed in a standard format.
+The usual scenario is to decide the validity of first-order logic formula (TPTP format), but there is also support for higher-order terms (THF format), and for returning proofs expressed in a standard language (TSTP format).
 
 The idea of separate reasoning tools communicating to enhance a proof development environment is also being pursued in the Evidential Tool Bus~\cite{DBLP:conf/icfem/Rushby05} and the MathServe System~\cite{DBLP:conf/cade/ZimmerA06}.
 This idea is a natural extension of the integration of automatic tools with interactive theorem provers.
