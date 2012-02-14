@@ -27,7 +27,7 @@ This enables, for example, LCF-style proof reconstruction efforts to be shared b
 
 \section{Introduction}
 
-There are many LCF-style systems for interactively developing machine-checked formal theories, including HOL4~\cite{slind08brief}, HOL Light~\cite{DBLP:conf/tphol/Harrison09a}, ProofPower~\cite{ProofPower}, and Isabelle/HOL~\cite{wenzel08isabelle}.
+There are many LCF-style systems for interactively developing machine-checked formal theories, including HOL4~\cite{slind08brief}, HOL Light~\cite{DBLP:conf/tphol/Harrison09a}, ProofPower~\cite{ProofPower} and Isabelle/HOL~\cite{wenzel08isabelle}.
 The logic implemented by these systems is essentially the same, but the collections of theory libraries and proof tools built on top of the logical kernels differ.
 Where similar proof tools exist in multiple systems it is usually the result of duplicated effort.
 
@@ -37,7 +37,7 @@ Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of 
 Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but its functionality would also be useful in other systems.
 
 In addition to the development effort, the costs of maintenance can also be multiplied over different systems, and improvements in functionality can become restricted to a single system unnecessarily.
-For instance, the Metis first-order prover~\cite{hurd2003d} is integrated in multiple systems in the HOL family, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
+For instance, the Metis first order logic prover~\cite{hurd2003d} is integrated in multiple systems in the HOL family, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
 Slind's TFL package for defining recursive functions~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, was superseded in Isabelle/HOL by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
 The improvements of Krauss's method over TFL ought to be applicable to other HOL-based provers, but a direct reimplementation would require substantial effort.
 
@@ -104,7 +104,7 @@ In our example above of using a linear arithmetic standalone tactic on the given
 \]
 where the assumptions consist of a collection of standard arithmetic facts.
 
-% Furthermore, we can represent a higher-order logic term in a theory by including the term in the statement of a theorem.\footnote{For example, we could represent $t$ by the theory $\emptyset\rhd\{\vdash{t=t}\}$.
+% Furthermore, we can represent a higher order logic term in a theory by including the term in the statement of a theorem.\footnote{For example, we could represent $t$ by the theory $\emptyset\rhd\{\vdash{t=t}\}$.
 % (The article format allows for multiple occurrences of $t$ to be shared.)
 % This kind of encoding is necessary to represent terms of non-boolean type, since the conclusion of a theorem must be boolean.}
 % Thus the same format, article files, can be used to encode terms and proofs for communication with tactics.
@@ -201,7 +201,7 @@ The overall time is in the 1--2s range, which is very slow for workaday tactics 
 \section{Related Work}
 
 An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}, which enables a user to remotely execute a collection of automatic theorem provers on a problem expressed in a standard format.
-The usual scenario is to decide the validity of first-order logic formula (TPTP format), but there is also support for higher-order terms (THF format), and for returning proofs expressed in a standard language (TSTP format).
+The usual scenario is to decide the validity of first order logic formulas (TPTP format), but there is also support for higher order terms (THF format), and for returning proofs expressed in a standard language (TSTP format).
 
 The idea of separate reasoning tools communicating to enhance a proof development environment is also being pursued in the Evidential Tool Bus~\cite{DBLP:conf/icfem/Rushby05} and the MathServe System~\cite{DBLP:conf/cade/ZimmerA06}.
 This idea is a natural extension of the integration of automatic tools with interactive theorem provers.
