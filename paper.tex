@@ -21,7 +21,7 @@
 \begin{abstract}
 Proof tools in interactive theorem provers are usually developed within and tied to a specific system, which leads to a duplication of effort to make the functionality available in different systems.
 Many verification projects would benefit from access to proof tools developed in other systems.
-Using \OpenTheory as a language for communicating between systems, we show how to turn a proof tool implemented for one system into a standalone tactic available to many systems via the web.
+Using \OpenTheory as a language for communicating between systems, we show how to turn a proof tool implemented for one system into a standalone tactic available to many systems via the internet.
 This enables, for example, LCF-style proof reconstruction efforts to be shared by users of different interactive theorem provers and removes the need for each user to install the external tool being integrated.
 \end{abstract}
 
@@ -73,7 +73,7 @@ decides to pass it off to a standalone tactic for linear arithmetic.
 
 The input for the standalone tactic is the goal term, and the output is a proof of the theorem.
 Standalone tactics use the \OpenTheory article format for communicating terms and proofs.
-The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the web to the standalone tactic.
+The interactive theorem prover serializes the goal term from its local internal format to an article file, and sends the article over the internet to the standalone tactic.
 If successful, the standalone tactic sends back another article file encoding a proof of the goal, which the interactive theorem prover replays through its logical kernel to create the desired theorem.
 
 This example illustrates the key requirements for an interactive theorem prover to use standalone tactics:
@@ -82,7 +82,7 @@ This example illustrates the key requirements for an interactive theorem prover 
 
 \item\label{req:artw} Ability to write terms as \OpenTheory articles.
 
-\item\label{req:comm} Ability to communicate over the web with external programs.
+\item\label{req:comm} Ability to communicate with external programs.
 \end{enumerate}
 
 Requirements~\ref{req:artr} and \ref{req:artw} can be satisfied for an interactive theorem prover by implementing an \OpenTheory interface that can interpret and construct articles.
@@ -153,7 +153,7 @@ We used a general-purpose checkpointing facility to capture a HOL Light session 
 \begin{center}
 \begin{tabular}{||@{~}l@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||@{}l@{~}r@{~}|@{~}r@{~}l@{}||@{~}r@{~}||r@{~}||}
 \hline
-\textbf{Tactic-} & & \multicolumn{2}{c}{\textbf{Goal}} & & \textbf{Web} & & \multicolumn{2}{c}{\textbf{Proof}} & & \textbf{Total} & \textbf{Local} \\
+\textbf{Tactic-} & & \multicolumn{2}{c}{\textbf{Goal}} & & \textbf{Remote} & & \multicolumn{2}{c}{\textbf{Proof}} & & \textbf{Total} & \textbf{Local} \\
 \cline{2-4} \cline{7-9}
 \textbf{Problem} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} & & \textbf{Size} & \textbf{Time} & & \textbf{Time} & \textbf{Time} \\
  & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} & & \textbf{(b)} & \textbf{(s)} & & \textbf{(s)} & \textbf{(s)} \\
@@ -181,13 +181,13 @@ We used the following three test goals:
 
 \item $\exists x.\ \forall y.\ \exists z.\ (\lnot x \lor\lnot y) \land (\lnot z\lor\lnot y)$
 \end{enumerate}
-For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of the three phases of execution: encoding the goal as an article; communicating with and executing the standalone tactic via the web; and replaying the proof article received.
+For each invocation of a standalone tactic on a test goal, Table~\ref{tab:performance} profiles the time and space requirements of the three phases of execution: encoding the goal as an article; communicating with and executing the standalone tactic remotely; and replaying the proof article received.
 For comparison, the time to run the tactic locally within HOL4 is given in the rightmost column.
 
 The sizes of the articles for the test goals and the resulting proofs are comparable to the typical size of web requests and the resulting pages, so we can be confident that we are within the normal operating range of the web tools we use (\texttt{curl} on the client and CGI scripts on the server).
 For problems involving larger articles (bigger goals or longer proofs) we may wish to compress them using \texttt{gzip} before sending them over the network---previous experiments showed a compression ratio of 90\% is typical for article files~\cite{hurd2009}.
 
-Turning now to execution time, we can see that it is significantly more expensive to call a standalone tactic over the web compared to executing it locally. However, most of the time is spent on `Web Time', which includes communicating with the remote standalone tactic and waiting for it to read the goal article, run the proof tool, and write the resulting proof article.
+Turning now to execution time, we can see that it is significantly more expensive to call a standalone tactic over the internet compared to executing it locally. However, most of the time is spent on `Remote Time', which includes communicating with the remote standalone tactic and waiting for it to read the goal article, run the proof tool, and write the resulting proof article.
 Using \texttt{traceroute} we see a 0.173s network delay between the test client in Portland, OR, USA and the test server in Cambridge, UK, which accounts for at least 0.346s of delay.
 The overall time is in the 1--2s range, which is very slow for workaday tactics but may well be tolerated by the user to gain access to the functionality of a proof tool on another system.
 
@@ -202,7 +202,7 @@ The overall time is in the 1--2s range, which is very slow for workaday tactics 
 
 The PROSPER project~\cite{dennis2000} pioneered the technique of sending goals over the internet to a remote solver, and packaging such procedures as tactics in the HOL4 theorem prover. The standalone tactics described in this paper further systematize this by using \OpenTheory as a standard language and ontology to make it easier for interactive theorem provers and remote solvers to communicate.
 
-An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}, which enables a user to remotely execute a collection of automatic theorem provers on a problem expressed in a standard format.
+An impressive example of providing reasoning infrastructure over the internet is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}, which enables a user to remotely execute a collection of automatic theorem provers on a problem expressed in a standard format.
 The usual scenario is to decide the validity of first order logic formulas (TPTP format), but there is also support for higher order terms (THF format), and for returning proofs expressed in a standard language (TSTP format).
 
 The idea of separate reasoning tools communicating to enhance a proof development environment is also being pursued in the Evidential Tool Bus~\cite{DBLP:conf/icfem/Rushby05} and the MathServe System~\cite{DBLP:conf/cade/ZimmerA06}.
@@ -212,7 +212,7 @@ This idea is a natural extension of the integration of automatic tools with inte
 
 We have shown how, using \OpenTheory for communication, we can write tools for higher order logic reasoning tasks as standalone tactics, making them available to multiple interactive theorem provers and independently maintainable.
 Existing proof tools can be extracted from their home systems for reuse.
-There is a substantial but hopefully tolerable overhead of communicating goals and proofs in article files over the web.
+There is a substantial but hopefully tolerable overhead of communicating goals and proofs in article files over the internet.
 
 \bibliographystyle{splncs}
 \bibliography{paper}
