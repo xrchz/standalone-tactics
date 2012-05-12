@@ -122,7 +122,7 @@ Implementing an \OpenTheory interface to satisfy Requirements~\ref{req:artr} and
 There are two approaches to obtaining a standalone tactic: either write one directly; or extract an existing tactic from an interactive theorem prover.
 We have experimented with the second approach, extracting tactics from HOL4 and from HOL Light.
 The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.
-For tactic extraction to succeed, the key requirements for the interactive theorem prover are:
+For tactic extraction to succeed, the key requirements on the interactive theorem prover are:
 \begin{enumerate}
 \item\label{req:io} Ability to read and write \OpenTheory article files.
 
@@ -131,7 +131,7 @@ For tactic extraction to succeed, the key requirements for the interactive theor
 \item\label{req:ckpt} Ability to make a standalone executable encompassing the tactic functionality separated from the usual interface to the interactive theorem prover.
 \end{enumerate}
 
-Just as the requirements of an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
+Just as the requirements for an interactive theorem prover to use standalone tactics also enable it to import \OpenTheory packages in general, the first two requirements to create standalone tactics also enable a system to create and export \OpenTheory packages.
 (The last requirement enables running on a server.)
 
 Requirement~\ref{req:log} poses the highest barrier: a standalone tactic must record each proof at a level of detail sufficient to prove the same theorem using the \OpenTheory kernel.
