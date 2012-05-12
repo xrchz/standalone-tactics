@@ -36,7 +36,7 @@ For instance, Kumar and Weber~\cite{DBLP:conf/itp/KumarW11} and Kun\v{c}ar~\cite
 Weber and Amjad~\cite{weber09efficiently} give high-performance integrations of SAT solvers into three HOL-based systems; each integration requires a separate implementation.
 Sledgehammer~\cite{DBLP:conf/frocos/BlanchetteBN11} is only available for Isabelle/HOL, but its functionality would also be useful in other systems.
 
-In addition to the development effort, the costs of maintenance can also be multiplied over different systems, and improvements in functionality can become restricted to a single system unnecessarily.
+In addition to the development effort, the cost of maintenance can also be multiplied over different systems, and improvements in functionality can become restricted to a single system unnecessarily.
 For instance, the Metis first order logic prover~\cite{hurd2003d} is integrated in multiple systems in the HOL family, but the HOL4 version is very old compared to the latest version in Isabelle/HOL.
 Slind's TFL package for defining recursive functions~\cite{slindphd}, originally implemented for both Isabelle/HOL and HOL4, was superseded in Isabelle/HOL by Krauss's function definition package~\cite{DBLP:journals/jar/Krauss10}.
 The improvements of Krauss's method over TFL ought to be applicable to other HOL-based provers, but a direct reimplementation would require substantial effort.
@@ -122,7 +122,7 @@ Implementing an \OpenTheory interface to satisfy Requirements~\ref{req:artr} and
 There are two approaches to obtaining a standalone tactic: either write one directly; or extract an existing tactic from an interactive theorem prover.
 We have experimented with the second approach, extracting tactics from HOL4 and from HOL Light.
 The procedure is reasonably lightweight, but less flexible than writing a standalone tactic directly.
-For tactic extraction to succeed, the key requirements of the interactive theorem prover are:
+For tactic extraction to succeed, the key requirements for the interactive theorem prover are:
 \begin{enumerate}
 \item\label{req:io} Ability to read and write \OpenTheory article files.
 
@@ -200,7 +200,7 @@ The overall time is in the 1--2s range, which is very slow for workaday tactics 
 
 \section{Related Work}
 
-TODO: Prosper reference~\cite{dennis2000}.
+The PROSPER project~\cite{dennis2000} pioneered the technique of sending goals over the internet to a remote solver, and packaging such procedures as tactics in the HOL4 theorem prover. The standalone tactics described in this paper further systematize this by using \OpenTheory as a standard language and ontology to make it easier for interactive theorem provers and remote solvers to communicate.
 
 An impressive example of providing reasoning infrastructure over the web is System on TPTP~\cite{DBLP:conf/lpar/Sutcliffe10}, which enables a user to remotely execute a collection of automatic theorem provers on a problem expressed in a standard format.
 The usual scenario is to decide the validity of first order logic formulas (TPTP format), but there is also support for higher order terms (THF format), and for returning proofs expressed in a standard language (TSTP format).
